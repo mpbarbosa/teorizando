@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netflix Text Overlay</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Text Overlay</h1>
+      <button id="btn-toggle" title="Toggle overlay visibility">👁</button>
+    </header>
+
+    <div id="title-bar">
+      <span id="title-label">Not on a watch page</span>
+      <button id="btn-save-preset" disabled title="Save current layers as preset for this title">💾 Save preset</button>
+    </div>
+
+    <section id="layer-list"></section>
+
+    <form id="form-add">
+      <textarea id="input-text" placeholder="Enter overlay text..." rows="3"></textarea>
+      <div class="row">
+        <label>X <input type="number" id="input-x" value="20" min="0" /></label>
+        <label>Y <input type="number" id="input-y" value="20" min="0" /></label>
+        <label>Size <input type="number" id="input-size" value="24" min="8" max="120" /></label>
+        <label>Color <input type="color" id="input-color" value="#ffffff" /></label>
+      </div>
+      <div class="row">
+        <label>Start (s) <input type="number" id="input-start" placeholder="always" min="0" /></label>
+        <label>End (s) <input type="number" id="input-end" placeholder="forever" min="0" /></label>
+      </div>
+      <button type="submit">＋ Add Layer</button>
+    </form>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

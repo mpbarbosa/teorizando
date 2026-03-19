@@ -1,0 +1,20 @@
+{
+  "80100172": [
+    {
+      "text": "Texto automático para Dark",
+      "x": 20,
+      "y": 20,
+      "fontSize": 24,
+      "color": "#ffffff"
+    },
+    {
+      "text": "Teste com o pimeiro epsiódio de Dark",
+      "x": 20,
+      "y": 60,
+      "fontSize": 24,
+      "color": "#ffff00",
+      "startTime": 60,
+      "endTime": 70
+    }
+  ]
+}
