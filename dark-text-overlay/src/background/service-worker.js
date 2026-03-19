@@ -33,5 +33,6 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
         const merged = { ...defaults, ...existing };
         chrome.storage.sync.set({ nto_presets: merged });
       });
-    });
+    })
+    .catch((err) => console.warn('[NTO] Failed to seed default presets:', err));
 });

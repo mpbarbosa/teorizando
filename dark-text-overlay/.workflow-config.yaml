@@ -12,13 +12,14 @@ tech_stack:
   primary_language: "javascript"
   secondary_languages: []
   build_system: "none"
-  test_framework: "none"
-  test_command: ""
+  test_framework: "jest"
+  test_command: "npm test"
   lint_command: "npm run lint"
 
 structure:
   source_dirs:
     - src
-  test_dirs: []
+  test_dirs:
+    - tests
   docs_dirs:
     - docs

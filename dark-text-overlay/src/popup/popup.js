@@ -1,12 +1,17 @@
 const PRESETS_KEY = 'nto_presets';
 
+// chrome.storage.sync total quota: 102,400 bytes; warn at 80%
+const QUOTA_WARN_BYTES = 81920;
+
 let layers = [];
 let currentTitleId = null;
 let editingIndex = null;
 let dragIndex = null;
 
-// --- Pure helper (mirrors overlay-utils.js) ---
-
+// --- Pure helper ---
+// NOTE: formatTime is intentionally duplicated from src/lib/overlay-utils.js.
+// popup.js runs as a browser script with no bundler — it cannot import from src/lib/.
+// Both implementations must stay in sync.
 function formatTime(seconds) {
   const s = Math.floor(seconds);
   return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
@@ -31,7 +36,7 @@ function savePreset(titleId, titleLayers, cb) {
     presets[titleId] = titleLayers;
     const payload = { [PRESETS_KEY]: presets };
     const byteSize = new TextEncoder().encode(JSON.stringify(payload)).length;
-    if (byteSize > 81920) {
+    if (byteSize > QUOTA_WARN_BYTES) {
       const warn = document.getElementById('quota-warning');
       if (warn) warn.style.display = '';
     }

@@ -94,6 +94,21 @@ The extension is functional and installed in developer mode. Core features deliv
 
 ---
 
+## Developer Health (Minor / Ongoing)
+
+> Items surfaced by ai_workflow code review — low effort, improves long-term maintainability.
+
+| # | Item | Notes |
+|---|------|-------|
+| D1 | **JSDoc on overlay.js and popup.js** | `overlay-utils.js` already has JSDoc; extend to the other two files |
+| D2 | **CHANGELOG.md** | Track breaking changes and notable additions per release |
+| D3 | **CONTRIBUTING.md** | Setup guide, branch conventions, how to run tests and linter |
+| D4 | **LICENSE file** | `package.json` declares MIT but no `LICENSE` file exists in the repo |
+| D5 | **docs/README.md** | Index page listing all docs with one-line descriptions |
+| D6 | **Module refactor for full test coverage** | `overlay.js` and `popup.js` are IIFE/browser scripts; export pure functions so ai_workflow-generated test drafts (`test/content/`, `test/popup/`) can run under Jest |
+
+---
+
 ## Out of Scope (Intentionally Deferred)
 
 - User authentication / accounts
