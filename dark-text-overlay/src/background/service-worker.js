@@ -10,6 +10,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
+// Toggle overlay via keyboard shortcut (Alt+Shift+O)
+chrome.commands.onCommand.addListener((command) => {
+  if (command !== 'toggle-overlay') return;
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs[0]?.id) {
+      chrome.tabs.sendMessage(tabs[0].id, { target: 'content', type: 'TOGGLE_VISIBILITY' });
+    }
+  });
+});
+
 // Seed default presets on first install (won't overwrite user data on updates)
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason !== 'install') return;

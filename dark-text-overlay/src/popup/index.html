@@ -9,7 +9,8 @@
   <body>
     <header>
       <h1>Text Overlay</h1>
-      <button id="btn-toggle" title="Toggle overlay visibility">👁</button>
+      <span id="video-time"></span>
+      <button id="btn-toggle" title="Toggle overlay visibility (Alt+Shift+O)">👁</button>
     </header>
 
     <div id="title-bar">
@@ -37,6 +38,12 @@
       </div>
       <button type="submit">＋ Add Layer</button>
       <button type="button" id="btn-add-chrono">⏱ Add Chronometer</button>
+      <div id="layer-preview" title="Position preview (scaled from 1920×1080)">
+        <div id="preview-screen">
+          <span id="preview-dot"></span>
+        </div>
+        <p class="preview-label">Position preview</p>
+      </div>
     </form>
 
     <script src="popup.js"></script>

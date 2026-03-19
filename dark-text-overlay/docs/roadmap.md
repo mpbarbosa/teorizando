@@ -23,7 +23,7 @@ The extension is functional and installed in developer mode. Core features deliv
 
 ---
 
-## Milestone 1 — Quality & Reliability
+## Milestone 1 — Quality & Reliability ✅
 
 > Goal: Make the extension robust enough for daily use without surprises.
 
@@ -37,7 +37,7 @@ The extension is functional and installed in developer mode. Core features deliv
 
 ---
 
-## Milestone 2 — UX Improvements
+## Milestone 2 — UX Improvements ✅
 
 > Goal: Make the popup faster and more informative to use.
 
@@ -47,7 +47,7 @@ The extension is functional and installed in developer mode. Core features deliv
 | 2.2 | **Inline layer editing** | Click a layer in the popup to edit its properties in-place (no remove + re-add) |
 | 2.3 | **Layer preview** | Show a mini live preview of position/size in the popup |
 | 2.4 | **Timing display improvement** | Show `00:11 → 00:17` (formatted) instead of `11s–17s` in the layer badge |
-| 2.5 | **Keyboard shortcut** | Toggle overlay visibility with a configurable keyboard shortcut (`chrome.commands`) |
+| 2.5 | **Keyboard shortcut** | Toggle overlay visibility with a configurable keyboard shortcut (`chrome.commands`); suggested default: `Alt+Shift+O` |
 | 2.6 | **Popup timestamp scrubber** | Show current video time in the popup header so users know where they are |
 
 ---
