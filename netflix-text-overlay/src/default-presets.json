@@ -6,11 +6,13 @@
       "y": 20,
       "fontSize": 24,
       "color": "#ffffff"
-    },
+    }
+  ],
+  "80114790": [
     {
       "text": "Teste com o pimeiro epsiódio de Dark",
       "x": 20,
-      "y": 60,
+      "y": 20,
       "fontSize": 24,
       "color": "#ffff00",
       "startTime": 60,
