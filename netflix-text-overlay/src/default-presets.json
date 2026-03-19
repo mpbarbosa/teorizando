@@ -17,6 +17,15 @@
       "color": "#ffff00",
       "startTime": 60,
       "endTime": 70
+    },
+    {
+      "text": "O tempo absoluto, verdadeiro e matemático, flui\nigualmente por si e por sua natureza sem relação\nalguma com algo externo, chamado também de\nduração. O tempo relativo, aparente e vulgar,\né alguma medida externa e sensível da duração\n(precisa ou desigual), obtida através do movimento, normalmente utilizado no lugar do tempo verdadeiro: assim como a hora, o dia, o mês e o ano\n(Isaac NEWTON)",
+      "x": 20,
+      "y": 20,
+      "fontSize": 18,
+      "color": "#ffffff",
+      "startTime": 11,
+      "endTime": 17
     }
   ]
 }
