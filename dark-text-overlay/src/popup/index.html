@@ -10,34 +10,148 @@
     <header>
       <h1>Text Overlay</h1>
       <span id="video-time"></span>
+      <button id="btn-drag-mode" title="Toggle drag mode — move layers on the video">🖱</button>
       <button id="btn-toggle" title="Toggle overlay visibility (Alt+Shift+O)">👁</button>
     </header>
 
     <div id="title-bar">
       <span id="title-label">Not on a watch page</span>
-      <button id="btn-save-preset" disabled title="Save current layers as preset for this title">💾 Save preset</button>
     </div>
 
     <div id="quota-warning" style="display:none">
       ⚠️ Storage nearly full. Consider removing unused presets.
     </div>
 
+    <!-- Preset selector bar (M3) -->
+    <div id="preset-bar" style="display:none">
+      <select id="preset-select" title="Active preset"></select>
+      <button id="btn-new-preset" title="New preset">＋</button>
+      <button id="btn-save-preset" disabled title="Save layers to active preset">💾 Save</button>
+      <button id="btn-manage-presets" title="Manage preset library">⋮</button>
+    </div>
+
+    <!-- Preset library panel (M3) -->
+    <div id="preset-library" style="display:none">
+      <div class="library-header">
+        <span>Preset Library</span>
+        <div class="library-header-actions">
+          <button id="btn-restore-defaults" title="Restore factory defaults for this title">↺ Defaults</button>
+          <button id="btn-import-preset" title="Import preset from JSON file">⬆ Import</button>
+          <button id="btn-close-library" title="Close">✕</button>
+        </div>
+      </div>
+      <ul id="preset-list"></ul>
+    </div>
+
+    <input type="file" id="import-file-input" accept=".json" style="display:none" />
+
+    <!-- Layer groups panel (M4.4) -->
+    <div id="groups-section" style="display:none">
+      <div class="section-header">
+        <span>Groups</span>
+        <button id="btn-close-groups" title="Close">✕</button>
+      </div>
+      <div id="groups-list"></div>
+    </div>
+
     <section id="layer-list"></section>
 
+    <!-- Timeline (M4.5) -->
+    <div id="timeline-section" style="display:none">
+      <div class="section-header">
+        <span>Timeline</span>
+        <button id="btn-close-timeline" title="Close">✕</button>
+      </div>
+      <div id="timeline-canvas"></div>
+    </div>
+
     <form id="form-add">
-      <textarea id="input-text" placeholder="Enter overlay text..." rows="3"></textarea>
+      <!-- Layer type selector (M4) -->
+      <div class="row" id="type-row">
+        <label>Type
+          <select id="input-type">
+            <option value="text">Text</option>
+            <option value="shape">Shape</option>
+            <option value="image">Image</option>
+          </select>
+        </label>
+        <button type="button" id="btn-timeline-toggle" title="Show/hide timeline">⏰</button>
+        <button type="button" id="btn-groups-toggle" title="Show/hide groups" style="display:none">⊞ Groups</button>
+      </div>
+
+      <!-- Text fields -->
+      <div class="form-section" data-for="text">
+        <textarea id="input-text" placeholder="Enter overlay text… (**bold**, *italic*)" rows="3"></textarea>
+        <label class="checkbox-label"><input type="checkbox" id="input-richtext"> Rich text</label>
+      </div>
+
+      <!-- Shape fields (M4.6 + 4.7 + 4.8) -->
+      <div class="form-section" data-for="shape" style="display:none">
+        <div class="row">
+          <label>Shape
+            <select id="input-shape">
+              <option value="rect">Rect</option>
+              <option value="circle">Circle</option>
+              <option value="ellipse">Ellipse</option>
+              <option value="line">Line</option>
+              <option value="arrow">Arrow</option>
+              <option value="polygon">Triangle</option>
+            </select>
+          </label>
+          <label>W <input type="number" id="input-shape-w" value="120" min="4" /></label>
+          <label>H <input type="number" id="input-shape-h" value="70"  min="4" /></label>
+        </div>
+        <div class="row">
+          <label>Fill   <input type="color" id="input-fill"         value="#000000" /></label>
+          <label>Stroke <input type="color" id="input-stroke"       value="#ffffff" /></label>
+          <label>SW     <input type="number" id="input-stroke-width" value="2" min="0" max="30" /></label>
+          <label>α      <input type="number" id="input-shape-opacity" value="1" min="0" max="1" step="0.1" /></label>
+        </div>
+        <div class="row">
+          <label>Anim
+            <select id="input-animation">
+              <option value="none">None</option>
+              <option value="fade-in">Fade in</option>
+              <option value="scale-in">Scale in</option>
+              <option value="draw-on">Draw on</option>
+            </select>
+          </label>
+          <label class="grow">Label <input type="text" id="input-label" placeholder="caption (optional)" /></label>
+        </div>
+      </div>
+
+      <!-- Image fields (M4.3) -->
+      <div class="form-section" data-for="image" style="display:none">
+        <input type="text" id="input-src" placeholder="Image URL or data:URI" />
+        <div class="row">
+          <label>W <input type="number" id="input-img-w" value="80" min="4" /></label>
+          <label>H <input type="number" id="input-img-h" value="80" min="4" /></label>
+          <label>α <input type="number" id="input-img-opacity" value="1" min="0" max="1" step="0.1" /></label>
+        </div>
+      </div>
+
+      <!-- Shared position row -->
       <div class="row">
         <label>X <input type="number" id="input-x" value="20" min="0" /></label>
         <label>Y <input type="number" id="input-y" value="20" min="0" /></label>
-        <label>Size <input type="number" id="input-size" value="24" min="8" max="120" /></label>
-        <label>Color <input type="color" id="input-color" value="#ffffff" /></label>
+        <label class="form-field" data-for="text">Size <input type="number" id="input-size" value="24" min="8" max="120" /></label>
+        <label class="form-field" data-for="text">Color <input type="color" id="input-color" value="#ffffff" /></label>
       </div>
+
+      <!-- Group field (all types) (M4.4) -->
+      <div class="row">
+        <label class="grow">Group <input type="text" id="input-group" placeholder="group name (optional)" /></label>
+      </div>
+
+      <!-- Timing -->
       <div class="row">
         <label>Start (s) <input type="number" id="input-start" placeholder="always" min="0" /></label>
         <label>End (s) <input type="number" id="input-end" placeholder="forever" min="0" /></label>
       </div>
-      <button type="submit">＋ Add Layer</button>
+
+      <button type="submit" id="btn-add-submit">＋ Add Layer</button>
       <button type="button" id="btn-add-chrono">⏱ Add Chronometer</button>
+
       <div id="layer-preview" title="Position preview (scaled from 1920×1080)">
         <div id="preview-screen">
           <span id="preview-dot"></span>

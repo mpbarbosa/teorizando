@@ -52,7 +52,7 @@ The extension is functional and installed in developer mode. Core features deliv
 
 ---
 
-## Milestone 3 — Multi-Preset & Export
+## Milestone 3 — Multi-Preset & Export ✅
 
 > Goal: Support richer per-series annotation workflows.
 
@@ -66,17 +66,20 @@ The extension is functional and installed in developer mode. Core features deliv
 
 ---
 
-## Milestone 4 — Content Authoring
+## Milestone 4 — Content Authoring ✅
 
 > Goal: Make it practical to author rich, time-locked annotations for educational viewing.
 
 | # | Feature | Notes |
 |---|---------|-------|
-| 4.1 | **Draggable layers** | Allow dragging overlay layers on the video with mouse events on the Shadow DOM host |
-| 4.2 | **Rich text support** | Support basic markdown-like formatting (bold, italic, line breaks) in layer text |
-| 4.3 | **Image / icon layers** | Support overlaying small images or emoji at a position |
-| 4.4 | **Layer groups** | Group layers into named scenes that activate/deactivate together |
-| 4.5 | **Timeline view** | Visual popup tab showing all timed layers on a scrubable timeline bar |
+| 4.1 | **Draggable layers** ✅ | Drag mode toggle in popup header; layers become interactive on the video; position synced back via `LAYER_MOVED` message |
+| 4.2 | **Rich text support** ✅ | `**bold**` and `*italic*` markdown parsed to HTML; opt-in per layer with "Rich text" checkbox |
+| 4.3 | **Image / icon layers** ✅ | New `type:"image"` layer with URL, width/height, opacity; rendered as `<img>` in Shadow DOM |
+| 4.4 | **Layer groups** ✅ | `group` field on any layer; Groups panel with per-group show/hide toggle |
+| 4.5 | **Timeline view** ✅ | Collapsible timeline in popup with colour-coded bars per layer type and a time ruler |
+| 4.6 | **Geometric shape layers** ✅ | SVG-based shapes (rect/circle/ellipse/line/arrow/triangle); fill, stroke, strokeWidth, opacity |
+| 4.7 | **Shape + text composition** ✅ | Optional `label` field on shape layers renders a caption below the shape |
+| 4.8 | **Shape animation presets** ✅ | `animation` field on shapes: `fade-in`, `scale-in`, `draw-on` (animated stroke) |
 
 ---
 
@@ -127,3 +130,5 @@ The extension is functional and installed in developer mode. Core features deliv
 | v0.1.2 | Chronometer layer (`MM:SS`) |
 | v0.1.3 | Dark S1E1 presets (Newton, Aristóteles, porta de ferro) |
 | v0.1.4 | ESLint, package.json, `.workflow-config.yaml` for ai_workflow.js integration |
+| v0.2.0 | Multi-preset per title, import/export JSON, preset library, cross-device sync, factory-default restore |
+| v0.3.0 | Shape layers (SVG), image layers, rich text, layer groups, timeline view, drag-to-reposition on video, shape animations |

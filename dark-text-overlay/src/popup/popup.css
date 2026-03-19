@@ -132,15 +132,11 @@ button[type="submit"]:hover { background: #b20710; }
 #btn-add-chrono:hover { border-color: #e50914; color: #e50914; }
 
 #title-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background: #1a1a1a;
   border: 1px solid #2a2a2a;
   border-radius: 4px;
   padding: 6px 8px;
-  margin-bottom: 10px;
-  gap: 8px;
+  margin-bottom: 8px;
 }
 
 #title-label {
@@ -150,6 +146,42 @@ button[type="submit"]:hover { background: #b20710; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* Preset selector bar (M3) */
+#preset-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  padding: 5px 8px;
+  margin-bottom: 8px;
+}
+
+#preset-select {
+  flex: 1;
+  min-width: 0;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 3px;
+  color: #e5e5e5;
+  font-size: 12px;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+
+#btn-new-preset {
+  background: none;
+  border: 1px solid #444;
+  color: #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 2px 7px;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+#btn-new-preset:hover { border-color: #e50914; color: #e50914; }
 
 #btn-save-preset {
   background: #1f1f1f;
@@ -164,6 +196,92 @@ button[type="submit"]:hover { background: #b20710; }
 }
 #btn-save-preset:disabled { opacity: 0.35; cursor: default; }
 #btn-save-preset:not(:disabled):hover { border-color: #e50914; color: #e50914; }
+
+#btn-manage-presets {
+  background: none;
+  border: 1px solid #444;
+  color: #888;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 1px 7px;
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+#btn-manage-presets:hover { border-color: #666; color: #e5e5e5; }
+
+/* Preset library panel (M3) */
+#preset-library {
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border-bottom: 1px solid #222;
+  font-size: 10px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.library-header-actions { display: flex; gap: 4px; }
+
+.library-header-actions button {
+  background: none;
+  border: 1px solid #333;
+  color: #777;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 10px;
+}
+.library-header-actions button:hover { border-color: #555; color: #e5e5e5; }
+#btn-close-library:hover { border-color: #e50914 !important; color: #e50914 !important; }
+
+#preset-list {
+  list-style: none;
+  margin: 0;
+  padding: 3px 0;
+  max-height: 130px;
+  overflow-y: auto;
+}
+
+.preset-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  font-size: 12px;
+  border-left: 2px solid transparent;
+  cursor: default;
+}
+.preset-item:hover { background: #1f1f1f; }
+.preset-item.active { border-left-color: #e50914; color: #fff; }
+
+.preset-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.preset-meta { font-size: 10px; color: #555; flex-shrink: 0; }
+
+.preset-actions { display: flex; gap: 2px; flex-shrink: 0; }
+.preset-actions button {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+.preset-actions button:hover { color: #aaa; background: #2a2a2a; }
+.btn-preset-activate:hover { color: #4caf50 !important; }
+.btn-preset-delete:hover { color: #e50914 !important; }
 
 .empty-msg { color: #555; font-size: 12px; text-align: center; }
 
@@ -307,4 +425,210 @@ button[type="submit"]:hover { background: #b20710; }
   border-radius: 4px;
   padding: 5px 8px;
   margin-bottom: 10px;
+}
+
+/* ── M4: Drag mode button ─────────────────────────────────────── */
+#btn-drag-mode {
+  background: none;
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 2px 6px;
+  cursor: pointer;
+  margin-right: 4px;
+}
+#btn-drag-mode.active {
+  background: #b22222;
+  border-color: #e50914;
+  color: #fff;
+}
+
+/* ── M4: Form type selector ───────────────────────────────────── */
+#type-row {
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+#input-type {
+  background: #1a1a1a;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 12px;
+}
+.form-section {
+  margin-bottom: 4px;
+}
+.checkbox-label {
+  font-size: 11px;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+label.grow { flex: 1; }
+.grow input { width: 100%; box-sizing: border-box; }
+
+/* ── M4: Shape form inputs ────────────────────────────────────── */
+#input-shape {
+  background: #1a1a1a;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+#input-animation {
+  background: #1a1a1a;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 11px;
+}
+input[type="color"] {
+  width: 32px;
+  height: 22px;
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 1px;
+  background: #1a1a1a;
+  cursor: pointer;
+}
+
+/* ── M4: Layer list icons ─────────────────────────────────────── */
+.layer-icon {
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-right: 2px;
+  opacity: .8;
+}
+.layer-group-badge {
+  font-size: 9px;
+  background: #2a3a2a;
+  color: #7dba7d;
+  border: 1px solid #3d6b3d;
+  border-radius: 8px;
+  padding: 0 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.layer-item.group-hidden {
+  opacity: .4;
+}
+
+/* ── M4: Groups panel ─────────────────────────────────────────── */
+#groups-section {
+  background: #151515;
+  border: 1px solid #333;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  padding: 6px 8px;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+.section-header button {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 4px;
+}
+.group-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  font-size: 12px;
+}
+.group-name {
+  color: #ddd;
+}
+.btn-group-toggle {
+  background: none;
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 3px;
+  font-size: 10px;
+  padding: 1px 6px;
+  cursor: pointer;
+}
+.btn-group-toggle.off {
+  border-color: #5a1a1a;
+  color: #c87070;
+}
+
+/* ── M4: Timeline ─────────────────────────────────────────────── */
+#timeline-section {
+  background: #0d0d0d;
+  border: 1px solid #333;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  padding: 6px 8px;
+}
+#timeline-canvas {
+  position: relative;
+  overflow: hidden;
+}
+.timeline-row {
+  position: relative;
+  height: 10px;
+  margin-bottom: 3px;
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+.timeline-bar {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 2px;
+  opacity: .85;
+  cursor: default;
+  transition: opacity .15s;
+}
+.timeline-bar:hover { opacity: 1; }
+.timeline-ruler {
+  position: relative;
+  height: 16px;
+  margin-top: 2px;
+}
+.timeline-tick {
+  position: absolute;
+  font-size: 8px;
+  color: #666;
+  transform: translateX(-50%);
+}
+
+/* ── M4: edit-row group/shape/image fields ────────────────────── */
+.edit-row { margin-bottom: 4px; }
+.edit-shape, .edit-fill, .edit-stroke { font-size: 11px; }
+.edit-label, .edit-src {
+  width: 100%;
+  background: #1a1a1a;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 11px;
+  box-sizing: border-box;
+}
+.edit-group {
+  width: 100%;
+  background: #1a1a1a;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 11px;
+  box-sizing: border-box;
 }
