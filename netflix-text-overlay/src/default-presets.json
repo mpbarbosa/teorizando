@@ -1,31 +1,31 @@
 {
-  "80100172": [
-    {
-      "text": "Texto automático para Dark",
-      "x": 20,
-      "y": 20,
-      "fontSize": 24,
-      "color": "#ffffff"
-    }
-  ],
   "80114790": [
-    {
-      "text": "Teste com o pimeiro epsiódio de Dark",
-      "x": 20,
-      "y": 20,
-      "fontSize": 24,
-      "color": "#ffff00",
-      "startTime": 60,
-      "endTime": 70
-    },
     {
       "text": "O tempo absoluto, verdadeiro e matemático, flui\nigualmente por si e por sua natureza sem relação\nalguma com algo externo, chamado também de\nduração. O tempo relativo, aparente e vulgar,\né alguma medida externa e sensível da duração\n(precisa ou desigual), obtida através do movimento, normalmente utilizado no lugar do tempo verdadeiro: assim como a hora, o dia, o mês e o ano\n(Isaac NEWTON)",
       "x": 20,
-      "y": 100,
-      "fontSize": 18,
+      "y": 120,
+      "fontSize": 20,
       "color": "#ffffff",
       "startTime": 11,
       "endTime": 17
+    },
+    {
+      "text": "O tempo é a medida do movimento segundo o antes e o depois (Aristóteles)",
+      "x": 100,
+      "y": 20,
+      "fontSize": 20,
+      "color": "#ffffff",
+      "startTime": 11,
+      "endTime": 17
+    },
+    {
+      "text": "A \"porta de ferro do bunker\" em Dark é um dos elementos mais misteriosos e icônicos da série da Netflix. Localizada na caverna da cidade de Winden, ela funciona como um ponto de transição crucial para a trama de viagem no tempo.\nLocalização: Fica no subsolo, dentro do sistema de cavernas de Winden.\nSignificado na Série: A porta se torna relevante quando personagens como Claudia Tiedemann e, posteriormente, Aleksander Tiedemann (que a solda) têm envolvimento com ela, ligando a caverna a um ambiente de bunker. Ela faz parte da conexão entre a usina nuclear, as cavernas e o bunker de Winden.\nO que há por trás: A porta leva a uma sala de bunker subterrâneo. Esse bunker é usado em vários momentos cruciais da série, incluindo esconderijos e abrigo durante eventos de apocalipse.\nO Bunker de Winden: O bunker aparece em diferentes épocas (1953, 1986, 2019) e é essencial para o desenvolvimento da trama de Sci-Fi, frequentemente associado ao \"Quarto Azul\".",
+      "x": 20,
+      "y": 70,
+      "fontSize": 20,
+      "color": "#ffffff",
+      "startTime": 28,
+      "endTime": 32
     }
   ]
 }
