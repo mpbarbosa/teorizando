@@ -1,0 +1,24 @@
+# AI Workflow Automation Configuration
+# Generated for dark-text-overlay — Chrome Extension (Manifest V3)
+
+project:
+  name: "dark-text-overlay"
+  type: "chrome-extension"
+  description: "Chrome extension that displays custom time-synchronized text overlays on Netflix streams"
+  kind: "chrome_extension"
+  version: "0.1.0"
+
+tech_stack:
+  primary_language: "javascript"
+  secondary_languages: []
+  build_system: "none"
+  test_framework: "none"
+  test_command: ""
+  lint_command: "npm run lint"
+
+structure:
+  source_dirs:
+    - src
+  test_dirs: []
+  docs_dirs:
+    - docs

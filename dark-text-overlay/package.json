@@ -1,0 +1,12 @@
+{
+  "name": "dark-text-overlay",
+  "version": "0.1.0",
+  "description": "Chrome extension that displays custom time-synchronized text overlays on Netflix streams",
+  "scripts": {
+    "lint": "eslint src/**/*.js"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4"
+  },
+  "license": "MIT"
+}
