@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Netflix Text Overlay",
+  "version": "0.1.0",
+  "description": "Display custom text overlays on top of Netflix streams.",
+  "permissions": ["storage", "activeTab", "tabs"],
+  "host_permissions": ["https://www.netflix.com/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/default-presets.json"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.netflix.com/*"],
+      "js": ["src/content/overlay.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

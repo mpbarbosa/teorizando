@@ -12,7 +12,14 @@ function getPresets(cb) {
 function savePreset(titleId, titleLayers, cb) {
   getPresets((presets) => {
     presets[titleId] = titleLayers;
-    chrome.storage.sync.set({ [PRESETS_KEY]: presets }, cb);
+    const payload = { [PRESETS_KEY]: presets };
+    const byteSize = new TextEncoder().encode(JSON.stringify(payload)).length;
+    // chrome.storage.sync total quota: 102,400 bytes; warn at 80%
+    if (byteSize > 81920) {
+      const warn = document.getElementById('quota-warning');
+      if (warn) warn.style.display = '';
+    }
+    chrome.storage.sync.set(payload, cb);
   });
 }
 

@@ -1,7 +1,7 @@
 {
   "80114790": [
     {
-      "text": "O tempo absoluto, verdadeiro e matemático, flui\nigualmente por si e por sua natureza sem relação\nalguma com algo externo, chamado também de\nduração. O tempo relativo, aparente e vulgar,\né alguma medida externa e sensível da duração\n(precisa ou desigual), obtida através do movimento, normalmente utilizado no lugar do tempo verdadeiro: assim como a hora, o dia, o mês e o ano\n(Isaac NEWTON)",
+      "text": "O tempo absoluto, verdadeiro e matemático, flui\nigualmente por si e por sua natureza sem relação\nalguma com algo externo, chamado também de\nduração. O tempo relativo, aparente e vulgar,\né alguma medida externa e sensível da duração\n(precisa ou desigual), obtida através do movimento,\n normalmente utilizado no lugar do tempo verdadeiro: assim como a hora, o dia, o mês e o ano\n(Isaac NEWTON)",
       "x": 20,
       "y": 120,
       "fontSize": 20,
@@ -19,13 +19,22 @@
       "endTime": 17
     },
     {
-      "text": "A \"porta de ferro do bunker\" em Dark é um dos elementos mais misteriosos e icônicos da série da Netflix. Localizada na caverna da cidade de Winden, ela funciona como um ponto de transição crucial para a trama de viagem no tempo.\nLocalização: Fica no subsolo, dentro do sistema de cavernas de Winden.\nSignificado na Série: A porta se torna relevante quando personagens como Claudia Tiedemann e, posteriormente, Aleksander Tiedemann (que a solda) têm envolvimento com ela, ligando a caverna a um ambiente de bunker. Ela faz parte da conexão entre a usina nuclear, as cavernas e o bunker de Winden.\nO que há por trás: A porta leva a uma sala de bunker subterrâneo. Esse bunker é usado em vários momentos cruciais da série, incluindo esconderijos e abrigo durante eventos de apocalipse.\nO Bunker de Winden: O bunker aparece em diferentes épocas (1953, 1986, 2019) e é essencial para o desenvolvimento da trama de Sci-Fi, frequentemente associado ao \"Quarto Azul\".",
+      "text": "A \"porta de ferro do bunker\" em Dark é um dos elementos mais misteriosos e icônicos da série.\n Localizada na caverna da cidade de Winden, ela funciona como um ponto de transição crucial para a trama de viagem no tempo.\nLocalização: Fica no subsolo, dentro do sistema de cavernas de Winden.\nSignificado na Série: A porta se torna relevante quando personagens como Claudia Tiedemann e, posteriormente, Aleksander Tiedemann (que a solda) têm envolvimento com ela, ligando a caverna a um ambiente de bunker. Ela faz parte da conexão entre a usina nuclear, as cavernas e o bunker de Winden.\nO que há por trás: A porta leva a uma sala de bunker subterrâneo. Esse bunker é usado em vários momentos cruciais da série, incluindo esconderijos e abrigo durante eventos de apocalipse.\nO Bunker de Winden: O bunker aparece em diferentes épocas (1953, 1986, 2019) e é essencial para o desenvolvimento da trama de Sci-Fi, frequentemente associado ao \"Quarto Azul\".",
       "x": 20,
       "y": 70,
       "fontSize": 20,
       "color": "#ffffff",
-      "startTime": 28,
+      "startTime": 29,
       "endTime": 32
+    }, 
+    {
+      "text": "Michael (Mikkel Nielsen) se matou em Dark para garantir a manutenção do loop temporal,\n assegurando que seu eu mais jovem fosse levado para 1986 por Jonas e que,\n consequentemente, Jonas nascesse. O suicídio foi o catalisador para a jornada de Jonas,\n o que preservou a linha do tempo predeterminada e impediu paradoxos.\n Principais razões para o suicídio de Michael:\n\n Manutenção do Ciclo: Michael, influenciado por Jonas do futuro, entendeu que \nsua morte era essencial para que o \"1986\" acontecesse. Se ele não morresse, \n o Mikkel criança poderia não ter sido levado, desfazendo a existência de Jonas.\n\n Destino Preexistente: Ele se matou porque \"sempre se matou\". É um conceito de \npredeterminismo, onde o evento precisa ocorrer para sustentar a realidade da série.\n\n Motivação de Jonas: A morte de Michael foi o gatilho emocional e narrativo que levou Jonas a investigar o passado, descobrindo as cavernas e o segredo da viagem no tempo.\n\n A \"Culpa\" de Jonas: Jonas tenta impedir o suicídio do pai, mas ao voltar no tempo, ele mesmo influencia Michael (seu pai/Mikkel) a cometer o suicídio, selando o paradoxo. \n\nEm resumo, Michael sacrificou sua vida para que o ciclo de eventos — a \"causalidade\" de Dark — não fosse quebrado.",
+      "x": 20,
+      "y": 70,
+      "fontSize": 20,
+      "color": "#ffffff",
+      "startTime": 130,
+      "endTime": 140
     }
   ]
 }

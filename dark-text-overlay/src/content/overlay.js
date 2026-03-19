@@ -1,6 +1,38 @@
 (() => {
   const PRESETS_KEY = 'nto_presets';
 
+  // Pure utilities (also used by tests)
+  const { formatTime, getTitleIdFromUrl, getVisibleLayers, layerKey } = (() => {
+    const m = window.__ntoUtils;
+    if (m) return m;
+    // Inline fallback (loaded via <script> in tests, or injected as module)
+    return {
+      formatTime(seconds) {
+        const s = Math.floor(seconds);
+        const mm = String(Math.floor(s / 60)).padStart(2, '0');
+        const ss = String(s % 60).padStart(2, '0');
+        return `${mm}:${ss}`;
+      },
+      getTitleIdFromUrl(pathname) {
+        const match = pathname.match(/\/(?:watch|title)\/(\d+)/);
+        return match ? match[1] : null;
+      },
+      getVisibleLayers(layers, currentTime) {
+        return layers.filter((layer) => {
+          if (layer.startTime == null && layer.endTime == null) return true;
+          if (currentTime == null) return false;
+          const afterStart = layer.startTime == null || currentTime >= layer.startTime;
+          const beforeEnd = layer.endTime == null || currentTime <= layer.endTime;
+          return afterStart && beforeEnd;
+        });
+      },
+      layerKey(layer, currentTime) {
+        if (layer.type === 'chronometer') return `chrono-${Math.floor(currentTime ?? 0)}`;
+        return `${layer.startTime ?? ''}-${layer.endTime ?? ''}-${layer.text}`;
+      },
+    };
+  })();
+
   // --- Shadow DOM container (isolated from Netflix styles) ---
   const host = document.createElement('div');
   host.id = 'nto-host';
@@ -30,15 +62,9 @@
   let debounceTimer = null;
   let tickTimer = null;
   let lastVisibleKeys = null;
+  const observers = [];
 
   // --- Helpers ---
-
-  function getTitleIdFromUrl() {
-    // Episode player:  /watch/80906021
-    // Show title page: /title/80100172
-    const m = window.location.pathname.match(/\/(?:watch|title)\/(\d+)/);
-    return m ? m[1] : null;
-  }
 
   // Netflix player embeds a "back to show" anchor like /title/80100172.
   // This lets us resolve an episode watch ID → parent show title ID.
@@ -50,7 +76,7 @@
         const url = data.url ?? data.partOfSeries?.url;
         const m = url?.match(/\/title\/(\d+)/);
         if (m) return m[1];
-      } catch {}
+      } catch (_) { /* no JSON-LD */ }
     }
     // Fallback: any anchor pointing to a /title/ URL
     for (const a of document.querySelectorAll('a[href*="/title/"]')) {
@@ -60,26 +86,9 @@
     return null;
   }
 
-  function formatTime(seconds) {
-    const s = Math.floor(seconds);
-    const mm = String(Math.floor(s / 60)).padStart(2, '0');
-    const ss = String(s % 60).padStart(2, '0');
-    return `${mm}:${ss}`;
-  }
-
   function getVideoTime() {
     const video = document.querySelector('video');
     return video ? video.currentTime : null;
-  }
-
-  function getVisibleLayers(currentTime) {
-    return layers.filter((layer) => {
-      if (layer.startTime == null && layer.endTime == null) return true;
-      if (currentTime == null) return false;
-      const afterStart = layer.startTime == null || currentTime >= layer.startTime;
-      const beforeEnd = layer.endTime == null || currentTime <= layer.endTime;
-      return afterStart && beforeEnd;
-    });
   }
 
   function renderLayers(visibleLayers, currentTime) {
@@ -100,16 +109,11 @@
     });
   }
 
-  function layerKey(layer, currentTime) {
-    if (layer.type === 'chronometer') return `chrono-${Math.floor(currentTime ?? 0)}`;
-    return `${layer.startTime ?? ''}-${layer.endTime ?? ''}-${layer.text}`;
-  }
-
   function startTick() {
     if (tickTimer !== null) return;
     tickTimer = setInterval(() => {
       const currentTime = getVideoTime();
-      const visible = getVisibleLayers(currentTime);
+      const visible = getVisibleLayers(layers, currentTime);
       const keys = visible.map((l) => layerKey(l, currentTime)).join('|');
       if (keys !== lastVisibleKeys) {
         lastVisibleKeys = keys;
@@ -134,27 +138,35 @@
       return;
     }
 
-    chrome.storage.sync.get(PRESETS_KEY, (result) => {
-      const presets = result[PRESETS_KEY] ?? {};
+    try {
+      chrome.storage.sync.get(PRESETS_KEY, (result) => {
+        if (chrome.runtime.lastError) {
+          console.warn('[NTO] storage.sync.get error:', chrome.runtime.lastError.message);
+          return;
+        }
+        const presets = result[PRESETS_KEY] ?? {};
 
-      if (presets[titleId]) {
-        layers = presets[titleId];
-        startTick();
-        return;
-      }
+        if (presets[titleId]) {
+          layers = presets[titleId];
+          startTick();
+          return;
+        }
 
-      const showId = getShowIdFromDom();
-      layers = (showId && presets[showId]) ? presets[showId] : [];
-      if (layers.length > 0) startTick();
-      else { stopTick(); renderLayers([]); }
-    });
+        const showId = getShowIdFromDom();
+        layers = (showId && presets[showId]) ? presets[showId] : [];
+        if (layers.length > 0) startTick();
+        else { stopTick(); renderLayers([]); }
+      });
+    } catch (err) {
+      console.warn('[NTO] Failed to load preset:', err);
+    }
   }
 
   // Debounced so rapid SPA mutations don't trigger multiple concurrent loads
   function onUrlChange() {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      const newTitleId = getTitleIdFromUrl();
+      const newTitleId = getTitleIdFromUrl(window.location.pathname);
       if (newTitleId === currentTitleId) return;
       currentTitleId = newTitleId;
       loadPresetForTitle(currentTitleId);
@@ -167,16 +179,30 @@
 
   const observeTitle = () => {
     const titleEl = document.querySelector('title');
-    if (titleEl) new MutationObserver(onUrlChange).observe(titleEl, { childList: true });
+    if (titleEl) {
+      const obs = new MutationObserver(onUrlChange);
+      obs.observe(titleEl, { childList: true });
+      observers.push(obs);
+    }
   };
   observeTitle();
-  new MutationObserver(observeTitle).observe(document.head ?? document.documentElement, {
+  const headObserver = new MutationObserver(observeTitle);
+  headObserver.observe(document.head ?? document.documentElement, {
     childList: true,
     subtree: true,
   });
+  observers.push(headObserver);
+
+  // --- Cleanup on unload ---
+  window.addEventListener('pagehide', () => {
+    stopTick();
+    clearTimeout(debounceTimer);
+    observers.forEach((obs) => obs.disconnect());
+    observers.length = 0;
+  });
 
   // --- Init ---
-  currentTitleId = getTitleIdFromUrl();
+  currentTitleId = getTitleIdFromUrl(window.location.pathname);
   loadPresetForTitle(currentTitleId);
 
   // --- Listen for messages from popup ---

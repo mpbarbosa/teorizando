@@ -165,3 +165,13 @@ button[type="submit"]:hover { background: #b20710; }
 #btn-save-preset:not(:disabled):hover { border-color: #e50914; color: #e50914; }
 
 .empty-msg { color: #555; font-size: 12px; text-align: center; }
+
+#quota-warning {
+  background: #3a1a00;
+  border: 1px solid #e57c00;
+  color: #e57c00;
+  font-size: 11px;
+  border-radius: 4px;
+  padding: 5px 8px;
+  margin-bottom: 10px;
+}
