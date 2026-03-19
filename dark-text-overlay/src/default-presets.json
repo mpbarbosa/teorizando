@@ -1,5 +1,23 @@
 {
-  "80114790": [
+  "80114790": {
+    "Default": {
+      "created": 0,
+      "modified": 0,
+      "layers": [
+    {
+      "type": "shape",
+      "shape": "rect",
+      "x": 20,
+      "y": 120,
+      "width": 200,
+      "height": 80,
+      "fill": "#cc0000",
+      "stroke": "#ff4444",
+      "strokeWidth": 2,
+      "opacity": 0.75,
+      "startTime": 11,
+      "endTime": 17
+    },
     {
       "text": "O tempo absoluto, verdadeiro e matemático, flui\nigualmente por si e por sua natureza sem relação\nalguma com algo externo, chamado também de\nduração. O tempo relativo, aparente e vulgar,\né alguma medida externa e sensível da duração\n(precisa ou desigual), obtida através do movimento,\n normalmente utilizado no lugar do tempo verdadeiro: assim como a hora, o dia, o mês e o ano\n(Isaac NEWTON)",
       "x": 20,
@@ -36,5 +54,7 @@
       "startTime": 130,
       "endTime": 140
     }
-  ]
+      ]
+    }
+  }
 }
