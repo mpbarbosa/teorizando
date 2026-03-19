@@ -49,11 +49,14 @@ function renderList() {
   layers.forEach((layer, i) => {
     const item = document.createElement('div');
     item.className = 'layer-item';
-    const timingLabel = layer.startTime != null || layer.endTime != null
-      ? `<span class="layer-timing">${layer.startTime ?? 0}s–${layer.endTime != null ? layer.endTime + 's' : '∞'}</span>`
-      : '';
+    const timingLabel = layer.type === 'chronometer'
+      ? '<span class="layer-timing">⏱ chrono</span>'
+      : (layer.startTime != null || layer.endTime != null
+        ? `<span class="layer-timing">${layer.startTime ?? 0}s–${layer.endTime != null ? layer.endTime + 's' : '∞'}</span>`
+        : '');
+    const displayText = layer.type === 'chronometer' ? '00:00 → MM:SS' : layer.text;
     item.innerHTML = `
-      <span class="layer-text">${layer.text}</span>
+      <span class="layer-text">${displayText}</span>
       ${timingLabel}
       <button class="btn-remove" data-index="${i}" title="Remove">✕</button>
     `;
@@ -147,4 +150,17 @@ document.getElementById('btn-save-preset').addEventListener('click', () => {
 // --- Toggle overlay visibility ---
 document.getElementById('btn-toggle').addEventListener('click', () => {
   chrome.runtime.sendMessage({ target: 'content', type: 'TOGGLE_VISIBILITY' });
+});
+
+// --- Add chronometer layer ---
+document.getElementById('btn-add-chrono').addEventListener('click', () => {
+  layers.push({
+    type: 'chronometer',
+    x: Number(document.getElementById('input-x').value),
+    y: Number(document.getElementById('input-y').value),
+    fontSize: Number(document.getElementById('input-size').value),
+    color: document.getElementById('input-color').value,
+  });
+  pushLayers();
+  renderList();
 });

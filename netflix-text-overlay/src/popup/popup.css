@@ -119,6 +119,17 @@ button[type="submit"] {
 }
 button[type="submit"]:hover { background: #b20710; }
 
+#btn-add-chrono {
+  background: #1f1f1f;
+  color: #e5e5e5;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 7px;
+  cursor: pointer;
+  font-size: 13px;
+}
+#btn-add-chrono:hover { border-color: #e50914; color: #e50914; }
+
 #title-bar {
   display: flex;
   align-items: center;

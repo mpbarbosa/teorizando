@@ -60,6 +60,13 @@
     return null;
   }
 
+  function formatTime(seconds) {
+    const s = Math.floor(seconds);
+    const mm = String(Math.floor(s / 60)).padStart(2, '0');
+    const ss = String(s % 60).padStart(2, '0');
+    return `${mm}:${ss}`;
+  }
+
   function getVideoTime() {
     const video = document.querySelector('video');
     return video ? video.currentTime : null;
@@ -75,12 +82,14 @@
     });
   }
 
-  function renderLayers(visibleLayers) {
+  function renderLayers(visibleLayers, currentTime) {
     shadow.querySelectorAll('.nto-layer').forEach((el) => el.remove());
     visibleLayers.forEach((layer) => {
       const el = document.createElement('div');
       el.className = 'nto-layer';
-      el.textContent = layer.text;
+      el.textContent = layer.type === 'chronometer'
+        ? formatTime(currentTime ?? 0)
+        : layer.text;
       el.style.cssText = `
         left: ${layer.x ?? 20}px;
         top: ${layer.y ?? 20}px;
@@ -91,7 +100,8 @@
     });
   }
 
-  function layerKey(layer) {
+  function layerKey(layer, currentTime) {
+    if (layer.type === 'chronometer') return `chrono-${Math.floor(currentTime ?? 0)}`;
     return `${layer.startTime ?? ''}-${layer.endTime ?? ''}-${layer.text}`;
   }
 
@@ -100,10 +110,10 @@
     tickTimer = setInterval(() => {
       const currentTime = getVideoTime();
       const visible = getVisibleLayers(currentTime);
-      const keys = visible.map(layerKey).join('|');
+      const keys = visible.map((l) => layerKey(l, currentTime)).join('|');
       if (keys !== lastVisibleKeys) {
         lastVisibleKeys = keys;
-        renderLayers(visible);
+        renderLayers(visible, currentTime);
       }
     }, 500);
   }
