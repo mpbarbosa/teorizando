@@ -6,7 +6,7 @@
 
 ---
 
-## Current State (v0.1.0)
+## Current State (v0.1.1)
 
 The extension is functional and installed in developer mode. Core features delivered:
 
@@ -107,7 +107,7 @@ The extension is functional and installed in developer mode. Core features deliv
 
 | Version | Highlights |
 |---------|-----------|
-| v0.1.0 | Initial implementation: static layers, storage, SPA nav detection |
+| v0.1.1 | Initial implementation: static layers, storage, SPA nav detection |
 | v0.1.1 | Time-based `startTime`/`endTime` layer support |
 | v0.1.2 | Chronometer layer (`MM:SS`) |
 | v0.1.3 | Dark S1E1 presets (Newton, Aristóteles, porta de ferro) |

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "fileScores": {
+    "eslint.config.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-19T17:50:25.646Z"
+    },
+    "src/background/service-worker.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-19T17:50:25.646Z"
+    },
+    "src/content/overlay.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-19T17:50:25.646Z"
+    },
+    "src/lib/overlay-utils.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-19T17:50:25.646Z"
+    },
+    "src/popup/popup.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-03-19T17:50:25.646Z"
+    }
+  }
+}

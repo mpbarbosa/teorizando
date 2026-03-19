@@ -6,7 +6,7 @@ project:
   type: "chrome-extension"
   description: "Chrome extension that displays custom time-synchronized text overlays on Netflix streams"
   kind: "chrome_extension"
-  version: "0.1.0"
+  version: "0.1.1"
 
 tech_stack:
   primary_language: "javascript"

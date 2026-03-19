@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "partitionIndex": 1,
+  "totalPartitions": 3,
+  "filesHash": "9a069143",
+  "partitionLabels": [
+    "eslint.config.js, src/background, src/content, src/lib, src/popup",
+    ".ai_workflow/.step_cache, .ai_workflow/metrics, manifest.json, package-lock.json, package.json",
+    "src"
+  ],
+  "updatedAt": "2026-03-19T17:50:25.646Z"
+}

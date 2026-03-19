@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Netflix Text Overlay",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Display custom text overlays on top of Netflix streams.",
   "permissions": ["storage", "activeTab", "tabs"],
   "host_permissions": ["https://www.netflix.com/*"],
