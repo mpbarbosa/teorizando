@@ -283,7 +283,9 @@ function buildEditForm(layer) {
   return `
     ${isText   ? `<div class="edit-row"><textarea class="edit-text" rows="2">${escHtml(layer.text ?? '')}</textarea></div>
                   <div class="edit-row"><label class="checkbox-label"><input type="checkbox" class="edit-richtext"${layer.richText ? ' checked' : ''}> Rich text</label></div>` : ''}
-    ${isChrono ? '<div class="edit-row"><em class="chrono-label">⏱ Chronometer</em></div>' : ''}
+    ${isChrono ? `<div class="edit-row"><em class="chrono-label">⏱ Chronometer</em>
+      <label class="checkbox-label"><input type="checkbox" class="edit-activated"${(layer.activated ?? true) ? ' checked' : ''}> Activated</label>
+    </div>` : ''}
     ${isShape  ? `<div class="edit-row row">
       <label>Shape <select class="edit-shape">
         <option value="rect"${layer.shape==='rect'?' selected':''}>Rect</option>
@@ -590,7 +592,9 @@ layerList.addEventListener('click', (e) => {
         layer.color    = item.querySelector('.edit-color')?.value ?? layer.color;
         layer.richText = item.querySelector('.edit-richtext')?.checked ?? false;
         if (!layer.richText) delete layer.richText;
-        if (layer.type !== 'chronometer') {
+        if (layer.type === 'chronometer') {
+          layer.activated = item.querySelector('.edit-activated')?.checked ?? true;
+        } else {
           layer.text = (item.querySelector('.edit-text')?.value ?? '').trim() || layer.text;
         }
       }
@@ -936,6 +940,7 @@ document.getElementById('btn-toggle').addEventListener('click', () => {
 document.getElementById('btn-add-chrono').addEventListener('click', () => {
   layers.push({
     type: 'chronometer',
+    activated: true,
     x: Number(document.getElementById('input-x').value),
     y: Number(document.getElementById('input-y').value),
     fontSize: Number(document.getElementById('input-size').value),
