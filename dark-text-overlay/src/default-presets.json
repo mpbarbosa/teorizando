@@ -421,6 +421,20 @@
       "endTime": 86
     },
     {
+      "type": "shape",
+      "shape": "rect",
+      "x": 40,
+      "y": 120,
+      "width": 920,
+      "height": 40,
+      "fill": "#cc0000",
+      "stroke": "#ff4444",
+      "strokeWidth": 2,
+      "opacity": 0.2,
+      "startTime": 101,
+      "endTime": 104
+    },
+    {
       "text": "Carta para Jonas Kahnwald, seu filho, explicando o motivo do suicídio",
       "x": 40,
       "y": 120,
