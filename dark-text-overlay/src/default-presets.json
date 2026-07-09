@@ -354,6 +354,29 @@
     {
       "type": "shape",
       "shape": "rect",
+      "x": 760,
+      "y": 540,
+      "width": 320,
+      "height": 44,
+      "fill": "#cc0000",
+      "stroke": "#ff4444",
+      "strokeWidth": 2,
+      "opacity": 0.2,
+      "startTime": 73,
+      "endTime": 75
+    },
+    {
+      "text": "Jonas Kahnwald",
+      "x": 760,
+      "y": 540,
+      "fontSize": 30,
+      "color": "#ffffff",
+      "startTime": 73,
+      "endTime": 75
+    },
+    {
+      "type": "shape",
+      "shape": "rect",
       "x": 400,
       "y": 500,
       "width": 640,
@@ -396,6 +419,29 @@
       "color": "#ffffff",
       "startTime": 84,
       "endTime": 86
+    },
+    {
+      "type": "shape",
+      "shape": "rect",
+      "x": 40,
+      "y": 120,
+      "width": 920,
+      "height": 40,
+      "fill": "#cc0000",
+      "stroke": "#ff4444",
+      "strokeWidth": 2,
+      "opacity": 0.2,
+      "startTime": 101,
+      "endTime": 104
+    },
+    {
+      "text": "Carta para Jonas Kahnwald, seu filho, explicando o motivo do suicídio",
+      "x": 40,
+      "y": 120,
+      "fontSize": 26,
+      "color": "#ffffff",
+      "startTime": 101,
+      "endTime": 104
     },
     {
       "text": "Michael (Mikkel Nielsen) se mata para garantir a manutenção do loop temporal,\n assegurando que seu eu mais jovem seja levado para 1986 por Jonas e que,\n consequentemente, Jonas possa nascer. O suicídio é o catalisador para a jornada de Jonas,\n o que preserva a linha do tempo predeterminada e impede paradoxos.\n Principais razões para o suicídio de Michael:\n\n Manutenção do Ciclo: Michael, influenciado por Jonas do futuro, entendeu que \nsua morte era essencial para que o \"1986\" acontecesse. Se ele não morresse, \n o Mikkel criança poderia não ter sido levado, desfazendo a existência de Jonas.\n\n Destino Preexistente: Ele se matou porque \"sempre se matou\". É um conceito de \npredeterminismo, onde o evento precisa ocorrer para sustentar a realidade da série.\n\n Motivação de Jonas: A morte de Michael foi o gatilho emocional e narrativo que levou Jonas a investigar o passado, descobrindo as cavernas e o segredo da viagem no tempo.\n\n A \"Culpa\" de Jonas: Jonas tenta impedir o suicídio do pai, mas ao voltar no tempo, ele mesmo influencia Michael (seu pai/Mikkel) a cometer o suicídio, selando o paradoxo. \n\nEm resumo, Michael sacrifica sua vida para que o ciclo de eventos — a \"causalidade\" de Dark — não seja quebrado.",
