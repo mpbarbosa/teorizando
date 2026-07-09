@@ -198,6 +198,14 @@
       "color": "#ffffff",
       "startTime": 172,
       "endTime": 175
+    },
+    {
+      "type": "chronometer",
+      "x": 20,
+      "y": 20,
+      "fontSize": 28,
+      "color": "#ffdd00",
+      "activated": true
     }
       ]
     }
