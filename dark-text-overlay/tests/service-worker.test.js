@@ -21,7 +21,7 @@ describe('service-worker', () => {
         onCommand: { addListener: jest.fn() },
       },
       storage: {
-        sync: {
+        local: {
           get: jest.fn(),
           set: jest.fn(),
         },
@@ -135,12 +135,12 @@ describe('service-worker', () => {
       const listener = loadAndCapture('runtime.onInstalled.addListener');
       const defaults = { '80114790': [] };
       global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(defaults) });
-      global.chrome.storage.sync.get.mockImplementation((key, cb) => cb({}));
+      global.chrome.storage.local.get.mockImplementation((key, cb) => cb({}));
 
       listener({ reason: 'install' });
       await new Promise((r) => setTimeout(r, 0)); // flush microtasks
 
-      expect(global.chrome.storage.sync.set).toHaveBeenCalledWith({ nto_presets: defaults });
+      expect(global.chrome.storage.local.set).toHaveBeenCalledWith({ nto_presets: defaults });
     });
 
     it('preserves existing user presets on install (user values win)', async () => {
@@ -148,25 +148,41 @@ describe('service-worker', () => {
       const defaults = { a: [1], b: [2] };
       const userPresets = { b: [99], c: [3] };
       global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(defaults) });
-      global.chrome.storage.sync.get.mockImplementation((key, cb) =>
+      global.chrome.storage.local.get.mockImplementation((key, cb) =>
         cb({ nto_presets: userPresets }),
       );
 
       listener({ reason: 'install' });
       await new Promise((r) => setTimeout(r, 0));
 
-      expect(global.chrome.storage.sync.set).toHaveBeenCalledWith({
+      expect(global.chrome.storage.local.set).toHaveBeenCalledWith({
         nto_presets: { a: [1], b: [99], c: [3] },
       });
     });
 
-    it('does not seed on update', async () => {
+    it('does not seed on update when storage already has presets', async () => {
       const listener = loadAndCapture('runtime.onInstalled.addListener');
+      global.chrome.storage.local.get.mockImplementation((key, cb) =>
+        cb({ nto_presets: { '80100172': { Default: { layers: [] } } } }),
+      );
 
       listener({ reason: 'update' });
       await new Promise((r) => setTimeout(r, 0));
 
       expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it('self-heals: seeds defaults on update when storage is empty', async () => {
+      const listener = loadAndCapture('runtime.onInstalled.addListener');
+      const defaults = { '80114790': [] };
+      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(defaults) });
+      global.chrome.storage.local.get.mockImplementation((key, cb) => cb({})); // empty
+
+      listener({ reason: 'update' });
+      await new Promise((r) => setTimeout(r, 0));
+
+      expect(global.fetch).toHaveBeenCalled();
+      expect(global.chrome.storage.local.set).toHaveBeenCalledWith({ nto_presets: defaults });
     });
 
     it('handles fetch errors without throwing (unhandled rejection)', async () => {

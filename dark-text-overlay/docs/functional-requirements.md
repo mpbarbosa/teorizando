@@ -71,7 +71,7 @@ Each overlay layer is a JSON object with the following fields:
 
 | ID | Requirement |
 |---|---|
-| FR-13 | Layer configurations SHALL be stored in `chrome.storage.sync` under the key `nto_presets`, keyed by Netflix title ID. |
+| FR-13 | Layer configurations SHALL be stored in `chrome.storage.local` under the key `nto_presets`, keyed by Netflix title ID. (Local rather than sync: presets can exceed sync's 8 KB-per-key cap; the trade-off is no cross-device sync.) |
 | FR-14 | On first install, the extension SHALL seed default presets from `src/default-presets.json` without overwriting any data the user has already configured. |
 | FR-15 | On subsequent updates, the default presets SHALL NOT overwrite user-saved presets. |
 | FR-16 | When the user is on an episode watch page (`/watch/<id>`), the extension SHALL first look up the episode's own watch ID; if no preset exists, it SHALL fall back to the parent show's title ID. |
@@ -89,34 +89,41 @@ Each overlay layer is a JSON object with the following fields:
 | ID | Requirement |
 |---|---|
 | FR-20 | The popup SHALL display the Netflix title ID of the currently active tab, or "Not on a watch page" if not applicable. |
-| FR-21 | The popup SHALL list all currently active layers for the current title, showing text content and timing badge where applicable. |
-| FR-22 | The user SHALL be able to add a new text layer by submitting the add-layer form with: text, X, Y, font size, colour, and optional start/end times. |
-| FR-23 | The user SHALL be able to add a chronometer layer via the **⏱ Add Chronometer** button, using the current X, Y, font size, and colour values from the form. |
-| FR-24 | The user SHALL be able to remove any layer by clicking its ✕ button. |
-| FR-25 | Adding or removing a layer SHALL immediately push the updated layer list to the content script (live preview). |
+| FR-21 | The popup SHALL display the current video playback position (formatted as `▶ MM:SS`) in the popup header, updated every second by polling the content script. |
+| FR-22 | The popup SHALL list all currently active layers for the current title, showing text content and timing badge where applicable. |
+| FR-23 | The user SHALL be able to add a new text layer by submitting the add-layer form with: text, X, Y, font size, colour, and optional start/end times. |
+| FR-24 | The user SHALL be able to add a chronometer layer via the **⏱ Add Chronometer** button, using the current X, Y, font size, and colour values from the form. |
+| FR-25 | The user SHALL be able to remove any layer by clicking its ✕ button. |
+| FR-26 | The user SHALL be able to reorder layers by dragging them within the layer list; the updated order SHALL be pushed to the content script immediately. |
+| FR-27 | The user SHALL be able to edit an existing layer in-place by clicking its ✎ button, which expands an inline form pre-populated with the layer's current values. |
+| FR-28 | The popup SHALL show a live position preview (scaled from 1920×1080 to 160×90) reflecting the X, Y, colour, and text of the add-layer form as the user types. |
+| FR-29 | Adding, removing, or reordering a layer SHALL immediately push the updated layer list to the content script (live preview). |
 
 ### 3.8 Popup — Preset Saving
 
 | ID | Requirement |
 |---|---|
-| FR-26 | The user SHALL be able to persist the current layer configuration as a preset for the active title via the **💾 Save preset** button. |
-| FR-27 | The Save preset button SHALL be disabled when the user is not on a Netflix watch page. |
-| FR-28 | On successful save, the button SHALL show a **✓ Saved!** confirmation for 1.5 seconds before reverting to its default label. |
+| FR-30 | The user SHALL be able to persist the current layer configuration as a preset for the active title via the **💾 Save preset** button. |
+| FR-31 | The Save preset button SHALL be disabled when the user is not on a Netflix watch page. |
+| FR-32 | On successful save, the button SHALL show a **✓ Saved!** confirmation for 1.5 seconds before reverting to its default label. |
+| FR-33 | The popup SHALL display a persistent warning banner when the total `chrome.storage.local` payload exceeds 80% of the ~5,242,880-byte quota (threshold: 4,194,304 bytes). |
 
 ### 3.9 Visibility Toggle
 
 | ID | Requirement |
 |---|---|
-| FR-29 | The user SHALL be able to show or hide all overlay layers at once via the **👁** toggle button in the popup header. |
-| FR-30 | Toggling visibility SHALL NOT delete or modify stored layer data. |
+| FR-34 | The user SHALL be able to show or hide all overlay layers at once via the **👁** toggle button in the popup header. |
+| FR-35 | The keyboard shortcut **Alt+Shift+O** (configurable via `chrome.commands`) SHALL toggle overlay visibility without opening the popup. |
+| FR-36 | Toggling visibility SHALL NOT delete or modify stored layer data. |
 
 ### 3.10 Message Routing
 
 | ID | Requirement |
 |---|---|
-| FR-31 | The service worker SHALL relay messages from the popup to the active tab's content script for `UPDATE_LAYERS` and `TOGGLE_VISIBILITY` message types. |
-| FR-32 | The content script SHALL respond to `GET_TITLE_ID` requests from the popup with the current title ID. |
-| FR-33 | When the content script detects a title change via SPA navigation, it SHALL broadcast a `TITLE_CHANGED` message so any open popup can refresh its layer list. |
+| FR-37 | The service worker SHALL relay any message carrying `target: "content"` from the popup to the active tab's content script. |
+| FR-38 | The content script SHALL respond to `GET_TITLE_ID` requests from the popup with the current Netflix title ID. |
+| FR-39 | The content script SHALL respond to `GET_VIDEO_TIME` requests from the popup with the current `video.currentTime` value, or `null` if no video element is present. |
+| FR-40 | When the content script detects a title change via SPA navigation, it SHALL broadcast a `TITLE_CHANGED` message so any open popup can refresh its layer list. |
 
 ---
 
@@ -126,23 +133,32 @@ Each overlay layer is a JSON object with the following fields:
 |---|---|
 | NFR-01 | The extension SHALL comply with Chrome Manifest V3 requirements (service worker, no remote code execution). |
 | NFR-02 | Overlay rendering SHALL not degrade Netflix playback performance (no synchronous DOM operations inside the tick loop beyond a string comparison gate). |
-| NFR-03 | The extension SHALL be load-compatible with Firefox via the `about:debugging` temporary add-on loader (Manifest V3). |
 
 ---
 
 ## 5. Default Presets (Dark — Netflix)
 
-| Title ID | Episode | Layers |
-|---|---|---|
-| `80100172` | Dark (show page) | 1 static layer |
-| `80114790` | Dark S1E1 (`/watch/80114790`) | Newton quote (11s–17s), Aristóteles quote (11s–17s), Porta de ferro description (28s–32s) |
+Title `80114790` (Dark S1E1, `/watch/80114790`) ships one `Default` preset with 8 time-synchronized annotations. Each is a caption paired with a semi-transparent red highlight rectangle (except the suicide explanation, which is text only).
+
+This is a **study aid** for viewers who have already seen the episode and want to unpack its plot. Each window is deliberately short — it brackets the scene beat the note explains. Because overlay visibility is driven by `video.currentTime`, **pausing freezes the annotation on screen**, so the viewer pauses within a window and reads the passage for as long as they like; the short window is not a reading budget.
+
+| Window | Annotation |
+|---|---|
+| 0:11–0:17 | Newton quote (absolute vs. relative time) + Aristóteles quote on time |
+| 0:29–0:32 | "Porta de ferro do bunker" / Winden bunker description (rich text) |
+| 1:15–1:17 | "Michael Kahnwald / Mikkel Nielsen" identity label |
+| 1:24–1:26 | "Residência da família Kahnwald" location label |
+| 2:10–2:20 | Michael's suicide and the time-loop explanation |
+| 2:38–2:42 | "04 de novembro de 2019" — Mikkel's disappearance |
+| 2:43–2:47 | Young Jonas Kahnwald description |
+| 2:52–2:55 | "A amitriptilina é um antidepressivo tricíclico" |
 
 ---
 
 ## 6. Out of Scope
 
-- Draggable/resizable layers via mouse interaction
-- Multiple named presets per title
-- Real-time synchronisation across devices via WebSocket
-- Firefox Manifest V2 compatibility shim
-- Support for streaming platforms other than Netflix
+- User authentication / accounts
+- Cloud database for preset storage
+- Real-time synchronisation across viewers via WebSocket
+- Video subtitle / SRT integration
+- Netflix official API (does not exist publicly)

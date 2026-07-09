@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Netflix Text Overlay",
+  "name": "Dark Text Overlay",
   "version": "0.1.1",
   "description": "Display custom text overlays on top of Netflix streams.",
   "permissions": ["storage", "activeTab", "tabs"],
@@ -8,7 +8,7 @@
   "web_accessible_resources": [
     {
       "resources": ["src/default-presets.json"],
-      "matches": ["<all_urls>"]
+      "matches": ["https://www.netflix.com/*"]
     }
   ],
   "action": {
@@ -25,7 +25,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.netflix.com/*"],
-      "js": ["src/content/overlay.js"],
+      "js": ["src/lib/overlay-utils.js", "src/content/overlay.js"],
       "run_at": "document_idle"
     }
   ],

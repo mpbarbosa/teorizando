@@ -1,37 +1,14 @@
 (() => {
   const PRESETS_KEY = 'nto_presets';
 
-  // Pure utilities (also used by tests)
-  const { formatTime, getTitleIdFromUrl, getVisibleLayers, layerKey } = (() => {
-    const m = window.__ntoUtils;
-    if (m) return m;
-    // Inline fallback (loaded via <script> in tests, or injected as module)
-    return {
-      formatTime(seconds) {
-        const s = Math.floor(seconds);
-        const mm = String(Math.floor(s / 60)).padStart(2, '0');
-        const ss = String(s % 60).padStart(2, '0');
-        return `${mm}:${ss}`;
-      },
-      getTitleIdFromUrl(pathname) {
-        const match = pathname.match(/\/(?:watch|title)\/(\d+)/);
-        return match ? match[1] : null;
-      },
-      getVisibleLayers(layers, currentTime) {
-        return layers.filter((layer) => {
-          if (layer.startTime == null && layer.endTime == null) return true;
-          if (currentTime == null) return false;
-          const afterStart = layer.startTime == null || currentTime >= layer.startTime;
-          const beforeEnd = layer.endTime == null || currentTime <= layer.endTime;
-          return afterStart && beforeEnd;
-        });
-      },
-      layerKey(layer, currentTime) {
-        if (layer.type === 'chronometer') return `chrono-${Math.floor(currentTime ?? 0)}`;
-        return `${layer.startTime ?? ''}-${layer.endTime ?? ''}-${layer.text}`;
-      },
-    };
-  })();
+  // Pure utilities from src/lib/overlay-utils.js, loaded as the first content
+  // script (see manifest content_scripts) so window.__ntoUtils is present.
+  const nto = window.__ntoUtils ?? self.__ntoUtils ?? globalThis.__ntoUtils;
+  if (!nto) {
+    console.error('[NTO] overlay-utils.js did not load before overlay.js — check manifest content_scripts order. Overlay disabled.');
+    return;
+  }
+  const { formatTime, getTitleIdFromUrl, getVisibleLayers, layerKey } = nto;
 
   // --- Shadow DOM container (isolated from Netflix styles) ---
   const host = document.createElement('div');
@@ -62,7 +39,7 @@
     .nto-image.nto-draggable { pointer-events: auto; cursor: move; }
     @keyframes nto-fade-in  { from { opacity:0 } to { opacity:1 } }
     @keyframes nto-scale-in { from { transform:scale(0); opacity:0 } to { transform:scale(1); opacity:1 } }
-    @keyframes nto-draw-on  { from { stroke-dashoffset:2000 } to { stroke-dashoffset:0 } }
+    @keyframes nto-draw-on  { from { stroke-dashoffset: var(--nto-len, 2000) } to { stroke-dashoffset:0 } }
   `;
   shadow.appendChild(style);
 
@@ -73,6 +50,12 @@
   let tickTimer = null;
   let lastVisibleKeys = null;
   const observers = [];
+
+  // Where the active layers came from in storage, so on-video edits can be
+  // written straight back (the popup closes the moment you touch the video,
+  // so persistence must happen here in the content script — not the popup).
+  let loadedTitleKey = null;   // the title/show ID under which the preset was found
+  let loadedPresetName = null; // named-preset key, or null for the legacy flat-array format
 
   // --- Drag state (M4.1) ---
   let dragMode = false;
@@ -95,7 +78,7 @@
         const url = data.url ?? data.partOfSeries?.url;
         const m = url?.match(/\/title\/(\d+)/);
         if (m) return m[1];
-      } catch (_) { /* no JSON-LD */ }
+      } catch { /* no JSON-LD */ }
     }
     // Fallback: any anchor pointing to a /title/ URL
     for (const a of document.querySelectorAll('a[href*="/title/"]')) {
@@ -173,9 +156,13 @@
       el.setAttribute('fill', fill);
       el.setAttribute('stroke', stroke);
       el.setAttribute('stroke-width', sw);
-      // draw-on animation needs stroke-dasharray set
+      // draw-on: hide the stroke then reveal it. The dash length scales with the
+      // shape (a fixed length finishes instantly on small shapes). Bounding-box
+      // perimeter is a safe upper bound for rect/ellipse/polygon; line/arrow use w.
       if (layer.animation === 'draw-on') {
-        el.setAttribute('stroke-dasharray', '2000');
+        const drawLen = Math.ceil(shape === 'line' || shape === 'arrow' ? w : 2 * (w + h));
+        el.setAttribute('stroke-dasharray', drawLen);
+        el.style.setProperty('--nto-len', drawLen);
         el.style.animation = 'nto-draw-on 1s linear forwards';
       } else if (layer.animation && layer.animation !== 'none') {
         svg.style.animation = `nto-${layer.animation} 0.4s ease-out both`;
@@ -201,7 +188,7 @@
 
   function renderLayers(visibleLayers, currentTime) {
     shadow.querySelectorAll('.nto-layer, .nto-shape, .nto-image').forEach((el) => el.remove());
-    visibleLayers.forEach((layer, visIdx) => {
+    visibleLayers.forEach((layer) => {
       // Shape layer (4.6)
       if (layer.type === 'shape') {
         const svg = buildShapeElement(layer);
@@ -259,6 +246,8 @@
   }
 
   function loadPresetForTitle(titleId) {
+    loadedTitleKey = null;
+    loadedPresetName = null;
     if (!titleId) {
       layers = [];
       stopTick();
@@ -267,22 +256,31 @@
     }
 
     try {
-      chrome.storage.sync.get([PRESETS_KEY, 'nto_active'], (result) => {
+      chrome.storage.local.get([PRESETS_KEY, 'nto_active'], (result) => {
         if (chrome.runtime.lastError) {
-          console.warn('[NTO] storage.sync.get error:', chrome.runtime.lastError.message);
+          console.warn('[NTO] storage.local.get error:', chrome.runtime.lastError.message);
           return;
         }
         const presets = result[PRESETS_KEY] ?? {};
         const active = result['nto_active'] ?? {};
 
+        // Resolves a title's layers and records where they came from (loadedTitleKey /
+        // loadedPresetName) so persistLayers() can write edits back to the same place.
         function resolveTitle(id) {
           const titleData = presets[id];
           if (!titleData) return null;
           // Backward-compat: old flat-array format
-          if (Array.isArray(titleData)) return titleData;
+          if (Array.isArray(titleData)) {
+            loadedTitleKey = id;
+            loadedPresetName = null;
+            return titleData;
+          }
           // New named-preset format: pick active or first preset
           const name = active[id] ?? Object.keys(titleData)[0];
-          return titleData[name]?.layers ?? null;
+          if (titleData[name]?.layers == null) return null;
+          loadedTitleKey = id;
+          loadedPresetName = name;
+          return titleData[name].layers;
         }
 
         const resolved = resolveTitle(titleId);
@@ -301,6 +299,37 @@
     } catch (err) {
       console.warn('[NTO] Failed to load preset:', err);
     }
+  }
+
+  // Writes the current `layers` back to the preset they were loaded from.
+  // Re-reads storage first so we only touch this one preset and never clobber
+  // other titles/presets that may have changed since load.
+  function persistLayers() {
+    if (!loadedTitleKey) return; // nothing was loaded from storage — nowhere to save
+    chrome.storage.local.get(PRESETS_KEY, (result) => {
+      if (chrome.runtime.lastError) {
+        console.warn('[NTO] persist get error:', chrome.runtime.lastError.message);
+        return;
+      }
+      const presets = result[PRESETS_KEY] ?? {};
+      if (loadedPresetName == null) {
+        // Legacy flat-array format
+        presets[loadedTitleKey] = layers;
+      } else {
+        const titleData = presets[loadedTitleKey];
+        if (!titleData || Array.isArray(titleData) || !titleData[loadedPresetName]) {
+          console.warn('[NTO] preset no longer in storage; skipping persist');
+          return;
+        }
+        titleData[loadedPresetName].layers = layers;
+        titleData[loadedPresetName].modified = Date.now();
+      }
+      chrome.storage.local.set({ [PRESETS_KEY]: presets }, () => {
+        if (chrome.runtime.lastError) {
+          console.warn('[NTO] persist set error:', chrome.runtime.lastError.message);
+        }
+      });
+    });
   }
 
   // Debounced so rapid SPA mutations don't trigger multiple concurrent loads
@@ -363,11 +392,24 @@
     if (layers[dragLayerIndex]) {
       layers[dragLayerIndex].x = newX;
       layers[dragLayerIndex].y = newY;
+      // Persist here (source of truth): the popup is closed while dragging on the video.
+      persistLayers();
+      // Best-effort notify: keeps an open popup in sync (no-op when it's closed).
       chrome.runtime.sendMessage({ type: 'LAYER_MOVED', index: dragLayerIndex, x: newX, y: newY }).catch(() => {});
     }
     dragTarget = null;
     dragLayerIndex = -1;
   });
+
+  // --- Fullscreen survival ---
+  // The Fullscreen API only paints the fullscreened element and its descendants.
+  // Our host lives under <body>, so it vanishes when Netflix goes fullscreen unless
+  // we re-parent it into the fullscreen element (and back to <body> on exit).
+  function relocateHostForFullscreen() {
+    const target = document.fullscreenElement ?? document.body;
+    if (host.parentNode !== target) target.appendChild(host);
+  }
+  document.addEventListener('fullscreenchange', relocateHostForFullscreen);
 
   // --- Cleanup on unload ---
   window.addEventListener('pagehide', () => {

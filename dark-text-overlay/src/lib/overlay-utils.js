@@ -1,8 +1,15 @@
 /**
- * Pure utility functions shared between overlay.js and tests.
- * These have no dependency on the DOM or chrome.* APIs.
+ * Pure utility functions shared between overlay.js, popup.js, the service
+ * worker, and tests. No dependency on the DOM or chrome.* APIs.
+ *
+ * Wrapped in an IIFE on purpose: this file is loaded as a plain (non-module)
+ * script into shared global scopes — the content-script isolated world, the
+ * popup page, and the service worker (via importScripts). Declaring the helpers
+ * at top level would leak them as globals, and each consumer's
+ * `const { … } = __ntoUtils` would then collide ("Identifier already declared").
+ * Keeping everything inside the IIFE means only `__ntoUtils` is exposed.
  */
-
+(function () {
 /**
  * Formats a video time in seconds to MM:SS display string.
  * @param {number} seconds
@@ -55,6 +62,35 @@ function layerKey(layer, currentTime) {
   return `${layer.startTime ?? ''}-${layer.endTime ?? ''}-${layer.text}`;
 }
 
-if (typeof module !== 'undefined') {
-  module.exports = { formatTime, getTitleIdFromUrl, getVisibleLayers, layerKey };
+/**
+ * Upgrades the legacy flat-array preset format to the named-preset format.
+ * Old: { titleId: [layers] }  →  New: { titleId: { Default: { layers, created, modified } } }
+ * Mutates `presets` in place; already-named titles are left untouched.
+ * @param {Object} presets
+ * @returns {{ presets: Object, didMigrate: boolean }}
+ */
+function migratePresets(presets) {
+  let didMigrate = false;
+  for (const [titleId, value] of Object.entries(presets)) {
+    if (Array.isArray(value)) {
+      presets[titleId] = {
+        Default: { layers: value, created: Date.now(), modified: Date.now() },
+      };
+      didMigrate = true;
+    }
+  }
+  return { presets, didMigrate };
 }
+
+const api = { formatTime, getTitleIdFromUrl, getVisibleLayers, layerKey, migratePresets };
+
+// Expose to browser contexts: content script, popup page, and the
+// service worker (loaded there via importScripts).
+if (typeof globalThis !== 'undefined') {
+  globalThis.__ntoUtils = api;
+}
+// Expose to CommonJS consumers (Jest / Node).
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = api;
+}
+})();

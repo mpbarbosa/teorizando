@@ -23,3 +23,352 @@ structure:
     - tests
   docs_dirs:
     - docs
+
+# ============================================================================
+# AI PERSONAS
+# ============================================================================
+# Personas selected for this project (Chrome Extension Manifest V3 —
+# displays text overlays on Netflix streams, popup HTML, no build step).
+#
+# ENABLED — matched to this project's stack and characteristics:
+#   ux_analyst              — extension popup UX and overlay interaction design; step_15
+#   accessibility_expert    — WCAG review: popup HTML, overlay contrast, ARIA; step_22
+#   code_quality_analyst    — ESLint, JavaScript code quality; step_10
+#   documentation_expert    — project docs and README; steps 01, 02
+#   technical_writer        — markdown quality; step_13
+#   git_specialist          — conventional commits, git finalization; step_12
+#   test_engineer           — jest + jest-chrome test review and generation; steps 06-08
+#   security_expert         — Chrome extension permissions, content script CSP; step_04
+#
+# DISABLED — not applicable:
+#   typescript_reviewer        — JavaScript only, no TypeScript
+#   aws_serverless_engineer    — no AWS infrastructure
+#   api_designer               — no REST API
+#   prompt_engineer            — not an AI/prompt project
+#   async_performance_engineer — no async-heavy patterns; simple content scripts
+#   performance_engineer       — minimal JS complexity; no profiling targets
+#   devops_engineer            — no build pipeline or deployment
+#   dependency_analyst         — no production dependencies
+#   architecture_reviewer      — simple extension structure; no system design
+
+ai_personas:
+  enabled:
+    - ux_analyst
+    - accessibility_expert
+    - code_quality_analyst
+    - documentation_expert
+    - technical_writer
+    - git_specialist
+    - test_engineer
+    - security_expert
+  disabled:
+    - typescript_reviewer
+    - aws_serverless_engineer
+    - api_designer
+    - prompt_engineer
+    - async_performance_engineer
+    - performance_engineer
+    - devops_engineer
+    - dependency_analyst
+    - architecture_reviewer
+
+workflow:
+  settings:
+    auto_mode: false
+    parallel_execution: true
+    smart_execution: true
+    ml_optimize: false
+    multi_stage: false
+    auto_commit: false
+
+  # Legacy stage shortcuts (kept for backwards compatibility)
+  stages:
+    quick:
+      enabled: true
+      steps: [step_00, step_01, step_02]
+    medium:
+      enabled: true
+      steps: [step_00, step_01, step_02, step_03, step_04, step_05]
+    full:
+      enabled: true
+      steps: [step_00, step_01, step_02, step_03, step_04, step_05, step_06, step_07, step_08, step_09, step_10, step_13, step_15, step_22, step_11, step_16, step_17, step_0f, step_12]
+
+  steps:
+
+    # PRE-PROCESSING
+    - id: step_00
+      name: "Pre-Analysis"
+      file: "step_00.js"
+      description: "Analyze Chrome extension structure, detect changes to content scripts, popup HTML, and manifest configuration"
+      phase: 1
+      enabled: true
+      can_parallelize: false
+      dependencies: []
+      ai_persona: ux_analyst
+
+    # BOOTSTRAP DOCUMENTATION (optional)
+    - id: step_0b
+      name: "Bootstrap Documentation"
+      file: "step_0b.js"
+      description: "Generate initial documentation for undocumented extension components"
+      phase: 1
+      enabled: false
+      reason: "Optional — enable only if documentation is entirely absent"
+      can_parallelize: false
+      dependencies: [step_00]
+      ai_persona: technical_writer
+
+    # DOCUMENTATION & ANALYSIS
+    - id: step_01
+      name: "Documentation Updates"
+      file: "step_01.js"
+      description: "Review and update README, extension docs, and inline comments for changed components"
+      phase: 1
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_00]
+      ai_persona: documentation_expert
+
+    - id: step_02
+      name: "Consistency Analysis"
+      file: "step_02.js"
+      description: "Check cross-reference consistency between docs, manifest.json, and source files"
+      phase: 1
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_01]
+      ai_persona: documentation_expert
+
+    - id: step_02_5
+      name: "Documentation Optimization"
+      file: "step_02_5.js"
+      description: "Optimize and consolidate documentation structure"
+      phase: 1
+      enabled: false
+      reason: "Simple Chrome extension — minimal documentation to consolidate"
+      can_parallelize: true
+      dependencies: [step_02]
+      ai_persona: technical_writer
+
+    - id: step_03
+      name: "Script References"
+      file: "step_03.js"
+      description: "Validate npm scripts and jest-chrome mock references"
+      phase: 1
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_02]
+      ai_persona: security_expert
+
+    # STRUCTURE & CONFIG VALIDATION
+    - id: step_04
+      name: "Config Validation"
+      file: "step_04.js"
+      description: "Validate manifest.json V3 permissions, content security policy, and package.json"
+      phase: 1
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_00]
+      ai_persona: security_expert
+
+    - id: step_05
+      name: "Directory Structure"
+      file: "step_05.js"
+      description: "Validate popup/, content/, background/, lib/ directory organization"
+      phase: 1
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_04]
+      ai_persona: ux_analyst
+
+    # TESTING PHASE
+    - id: step_06
+      name: "Test Review"
+      file: "step_06.js"
+      description: "Review jest + jest-chrome mock test coverage for content scripts and popup"
+      phase: 2
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_05]
+      ai_persona: test_engineer
+
+    - id: step_07
+      name: "Test Generation"
+      file: "step_07.js"
+      description: "Generate missing unit tests for overlay logic and content script functions"
+      phase: 2
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_06]
+      ai_persona: test_engineer
+
+    - id: step_08
+      name: "Test Execution"
+      file: "step_08.js"
+      description: "Execute jest test suite and validate coverage thresholds"
+      phase: 2
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_07]
+      ai_persona: test_engineer
+
+    # QUALITY PHASE
+    - id: step_09
+      name: "Dependency Analysis"
+      file: "step_09.js"
+      description: "Audit npm dev dependencies including jest-chrome mock library"
+      phase: 2
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_08]
+      ai_persona: security_expert
+
+    - id: step_10
+      name: "Code Quality"
+      file: "step_10.js"
+      description: "Run ESLint and review JavaScript code quality for extension components"
+      phase: 2
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_09]
+      ai_persona: code_quality_analyst
+
+    # SPECIALIZED ANALYSIS
+    - id: step_13
+      name: "Markdown Lint"
+      file: "step_13.js"
+      description: "Lint and fix markdown documentation files"
+      phase: 2
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_10]
+      ai_persona: technical_writer
+
+    - id: step_15
+      name: "UX Analysis"
+      file: "step_15.js"
+      description: "UX analysis: extension popup layout, overlay text readability on Netflix dark backgrounds, keyboard shortcut discoverability"
+      phase: 2
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_10]
+      ai_persona: ux_analyst
+
+    - id: step_18
+      name: "Debugging"
+      file: "step_18.js"
+      description: "Optional debugging step"
+      phase: 2
+      enabled: false
+      reason: "Optional debugging step — enable only when investigating content script failures"
+      can_parallelize: false
+      dependencies: [step_10]
+      ai_persona: code_quality_analyst
+
+    - id: step_19
+      name: "TypeScript Review"
+      file: "step_19.js"
+      description: "TypeScript-specific review"
+      phase: 2
+      enabled: false
+      reason: "JavaScript only project — no TypeScript"
+      can_parallelize: true
+      dependencies: [step_10]
+      ai_persona: typescript_reviewer
+
+    - id: step_20
+      name: "Async Performance Review"
+      file: "step_20.js"
+      description: "Async JavaScript performance review"
+      phase: 2
+      enabled: false
+      reason: "Simple Chrome extension — no async-heavy patterns to profile"
+      can_parallelize: true
+      dependencies: [step_10]
+      ai_persona: async_performance_engineer
+
+    - id: step_21
+      name: "Doc Consolidation"
+      file: "step_21.js"
+      description: "Documentation consolidation"
+      phase: 2
+      enabled: false
+      reason: "Simple Chrome extension — minimal documentation to consolidate"
+      can_parallelize: true
+      dependencies: [step_13]
+      ai_persona: documentation_expert
+
+    - id: step_22
+      name: "Accessibility Review"
+      file: "step_22.js"
+      description: "WCAG 2.1 AA/AAA review: Chrome extension popup HTML structure, overlay text contrast against Netflix dark backgrounds, keyboard shortcut accessibility, ARIA roles on overlay container elements"
+      phase: 2
+      enabled: true
+      can_parallelize: true
+      dependencies: [step_13]
+      ai_persona: accessibility_expert
+
+    - id: step_23
+      name: "Performance Review"
+      file: "step_23.js"
+      description: "JavaScript performance profiling and algorithmic complexity analysis"
+      phase: 2
+      enabled: false
+      reason: "Simple Chrome extension — content script complexity is minimal; no algorithmic hotspots to profile"
+      can_parallelize: true
+      dependencies: [step_13]
+      ai_persona: performance_engineer
+
+    # CONTEXT ANALYSIS
+    - id: step_11
+      name: "Context Analysis"
+      file: "step_11.js"
+      description: "Analyze extension component relationships, manifest permissions, and Netflix integration patterns"
+      phase: 2
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_10]
+      ai_persona: ux_analyst
+
+    # FINALIZATION
+    - id: step_16
+      name: "Version Update"
+      file: "step_16.js"
+      description: "Update version in manifest.json and CHANGELOG.md"
+      phase: 2
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_11]
+      ai_persona: git_specialist
+
+    - id: step_17
+      name: "Workflow Summary"
+      file: "step_17.js"
+      description: "Generate workflow execution summary and metrics report"
+      phase: 2
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_16]
+      ai_persona: technical_writer
+
+    # GIT FINALIZATION
+    - id: step_0f
+      name: "Commit Artifacts"
+      file: "step_0f.js"
+      description: "Commit workflow artifacts, docs, and generated files"
+      phase: 3
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_17]
+      ai_persona: git_specialist
+
+    # Git Finalization MUST BE LAST
+    - id: step_12
+      name: "Git Finalization"
+      file: "step_12.js"
+      description: "Stage, commit, and push with conventional commit message"
+      phase: 3
+      enabled: true
+      can_parallelize: false
+      dependencies: [step_0f]
+      ai_persona: git_specialist

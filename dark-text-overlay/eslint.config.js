@@ -25,4 +25,12 @@ export default [
       globals: { module: 'writable' },
     },
   },
+  {
+    // service-worker.js loads shared utils via importScripts at runtime and
+    // require() under Jest — both are guarded by typeof checks.
+    files: ['src/background/service-worker.js'],
+    languageOptions: {
+      globals: { importScripts: 'readonly', require: 'readonly' },
+    },
+  },
 ];
