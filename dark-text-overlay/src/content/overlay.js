@@ -256,9 +256,9 @@
     }
 
     try {
-      chrome.storage.sync.get([PRESETS_KEY, 'nto_active'], (result) => {
+      chrome.storage.local.get([PRESETS_KEY, 'nto_active'], (result) => {
         if (chrome.runtime.lastError) {
-          console.warn('[NTO] storage.sync.get error:', chrome.runtime.lastError.message);
+          console.warn('[NTO] storage.local.get error:', chrome.runtime.lastError.message);
           return;
         }
         const presets = result[PRESETS_KEY] ?? {};
@@ -306,7 +306,7 @@
   // other titles/presets that may have changed since load.
   function persistLayers() {
     if (!loadedTitleKey) return; // nothing was loaded from storage — nowhere to save
-    chrome.storage.sync.get(PRESETS_KEY, (result) => {
+    chrome.storage.local.get(PRESETS_KEY, (result) => {
       if (chrome.runtime.lastError) {
         console.warn('[NTO] persist get error:', chrome.runtime.lastError.message);
         return;
@@ -324,7 +324,7 @@
         titleData[loadedPresetName].layers = layers;
         titleData[loadedPresetName].modified = Date.now();
       }
-      chrome.storage.sync.set({ [PRESETS_KEY]: presets }, () => {
+      chrome.storage.local.set({ [PRESETS_KEY]: presets }, () => {
         if (chrome.runtime.lastError) {
           console.warn('[NTO] persist set error:', chrome.runtime.lastError.message);
         }

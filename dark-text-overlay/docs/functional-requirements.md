@@ -71,7 +71,7 @@ Each overlay layer is a JSON object with the following fields:
 
 | ID | Requirement |
 |---|---|
-| FR-13 | Layer configurations SHALL be stored in `chrome.storage.sync` under the key `nto_presets`, keyed by Netflix title ID. |
+| FR-13 | Layer configurations SHALL be stored in `chrome.storage.local` under the key `nto_presets`, keyed by Netflix title ID. (Local rather than sync: presets can exceed sync's 8 KB-per-key cap; the trade-off is no cross-device sync.) |
 | FR-14 | On first install, the extension SHALL seed default presets from `src/default-presets.json` without overwriting any data the user has already configured. |
 | FR-15 | On subsequent updates, the default presets SHALL NOT overwrite user-saved presets. |
 | FR-16 | When the user is on an episode watch page (`/watch/<id>`), the extension SHALL first look up the episode's own watch ID; if no preset exists, it SHALL fall back to the parent show's title ID. |
@@ -106,7 +106,7 @@ Each overlay layer is a JSON object with the following fields:
 | FR-30 | The user SHALL be able to persist the current layer configuration as a preset for the active title via the **💾 Save preset** button. |
 | FR-31 | The Save preset button SHALL be disabled when the user is not on a Netflix watch page. |
 | FR-32 | On successful save, the button SHALL show a **✓ Saved!** confirmation for 1.5 seconds before reverting to its default label. |
-| FR-33 | The popup SHALL display a persistent warning banner when the total `chrome.storage.sync` payload exceeds 80% of the 102,400-byte quota (threshold: 81,920 bytes). |
+| FR-33 | The popup SHALL display a persistent warning banner when the total `chrome.storage.local` payload exceeds 80% of the ~5,242,880-byte quota (threshold: 4,194,304 bytes). |
 
 ### 3.9 Visibility Toggle
 

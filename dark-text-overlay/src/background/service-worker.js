@@ -37,10 +37,10 @@ function seedDefaultPresets() {
   fetch(chrome.runtime.getURL('src/default-presets.json'))
     .then((r) => r.json())
     .then((defaults) => {
-      chrome.storage.sync.get('nto_presets', (result) => {
+      chrome.storage.local.get('nto_presets', (result) => {
         const existing = result['nto_presets'] ?? {};
         const merged = { ...defaults, ...existing };
-        chrome.storage.sync.set({ nto_presets: merged });
+        chrome.storage.local.set({ nto_presets: merged });
       });
     })
     .catch((err) => console.warn('[NTO] Failed to seed default presets:', err));
@@ -55,9 +55,9 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
 
   if (reason !== 'update') return;
 
-  chrome.storage.sync.get('nto_presets', (result) => {
+  chrome.storage.local.get('nto_presets', (result) => {
     const { presets, didMigrate } = ntoUtils.migratePresets(result['nto_presets'] ?? {});
-    if (didMigrate) chrome.storage.sync.set({ nto_presets: presets });
+    if (didMigrate) chrome.storage.local.set({ nto_presets: presets });
     // Self-heal: if storage is empty (e.g. a broken earlier install never
     // seeded — and reloads only ever fire 'update'), seed defaults now so the
     // overlay isn't left with nothing to show.

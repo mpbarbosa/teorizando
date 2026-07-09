@@ -1,12 +1,12 @@
 const PRESETS_KEY = 'nto_presets';
 const ACTIVE_KEY = 'nto_active';
 
-// chrome.storage.sync total quota: 102,400 bytes; warn at 80%
-const QUOTA_WARN_BYTES = 81920;
+// chrome.storage.local total quota: ~5,242,880 bytes (5 MB); warn at 80%.
+const QUOTA_WARN_BYTES = 4 * 1024 * 1024;
 
-// chrome.storage.sync caps a single key at 8,192 bytes, and all presets share
-// one key — reject image data URIs large enough to blow that on their own.
-const MAX_IMAGE_DATA_URI_BYTES = 6 * 1024;
+// storage.local has no per-key cap, but a single data URI can still bloat the
+// shared nto_presets object — reject oversized ones (hosted URLs are preferred).
+const MAX_IMAGE_DATA_URI_BYTES = 512 * 1024;
 
 // Shared pure helpers from src/lib/overlay-utils.js (loaded before this script
 // in index.html), so formatTime / migratePresets have a single source of truth.
@@ -32,25 +32,25 @@ function escHtml(str) {
 // --- Storage helpers ---
 
 function getPresets(cb) {
-  chrome.storage.sync.get(PRESETS_KEY, (result) => {
+  chrome.storage.local.get(PRESETS_KEY, (result) => {
     const raw = result[PRESETS_KEY] ?? {};
     const { presets, didMigrate } = migratePresets(raw);
-    if (didMigrate) chrome.storage.sync.set({ [PRESETS_KEY]: presets });
+    if (didMigrate) chrome.storage.local.set({ [PRESETS_KEY]: presets });
     cb(presets);
   });
 }
 
 function getActivePresetName(titleId, cb) {
-  chrome.storage.sync.get(ACTIVE_KEY, (result) => {
+  chrome.storage.local.get(ACTIVE_KEY, (result) => {
     cb((result[ACTIVE_KEY] ?? {})[titleId] ?? null);
   });
 }
 
 function setActivePresetName(titleId, presetName, cb) {
-  chrome.storage.sync.get(ACTIVE_KEY, (result) => {
+  chrome.storage.local.get(ACTIVE_KEY, (result) => {
     const active = result[ACTIVE_KEY] ?? {};
     active[titleId] = presetName;
-    chrome.storage.sync.set({ [ACTIVE_KEY]: active }, cb);
+    chrome.storage.local.set({ [ACTIVE_KEY]: active }, cb);
   });
 }
 
@@ -69,7 +69,7 @@ function saveNamedPreset(titleId, presetName, titleLayers, cb) {
       const warn = document.getElementById('quota-warning');
       if (warn) warn.style.display = '';
     }
-    chrome.storage.sync.set(payload, cb);
+    chrome.storage.local.set(payload, cb);
   });
 }
 
@@ -79,7 +79,7 @@ function deleteNamedPreset(titleId, presetName, cb) {
       delete presets[titleId][presetName];
       if (Object.keys(presets[titleId]).length === 0) delete presets[titleId];
     }
-    chrome.storage.sync.set({ [PRESETS_KEY]: presets }, cb);
+    chrome.storage.local.set({ [PRESETS_KEY]: presets }, cb);
   });
 }
 
@@ -88,12 +88,12 @@ function renameNamedPreset(titleId, oldName, newName, cb) {
     if (!presets[titleId]?.[oldName]) return cb?.();
     presets[titleId][newName] = presets[titleId][oldName];
     delete presets[titleId][oldName];
-    chrome.storage.sync.set({ [PRESETS_KEY]: presets }, () => {
-      chrome.storage.sync.get(ACTIVE_KEY, (result) => {
+    chrome.storage.local.set({ [PRESETS_KEY]: presets }, () => {
+      chrome.storage.local.get(ACTIVE_KEY, (result) => {
         const active = result[ACTIVE_KEY] ?? {};
         if (active[titleId] === oldName) {
           active[titleId] = newName;
-          chrome.storage.sync.set({ [ACTIVE_KEY]: active }, cb);
+          chrome.storage.local.set({ [ACTIVE_KEY]: active }, cb);
         } else {
           cb?.();
         }
@@ -707,7 +707,7 @@ document.getElementById('form-add').addEventListener('submit', (e) => {
     if (src.startsWith('data:') && src.length > MAX_IMAGE_DATA_URI_BYTES) {
       alert(
         `Image data URI is ~${Math.round(src.length / 1024)} KB, over the ` +
-        `${Math.round(MAX_IMAGE_DATA_URI_BYTES / 1024)} KB that fits in chrome.storage.sync. ` +
+        `${Math.round(MAX_IMAGE_DATA_URI_BYTES / 1024)} KB per-image limit. ` +
         'Use a hosted image URL instead.',
       );
       return;

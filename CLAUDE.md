@@ -35,7 +35,7 @@ A Manifest V3 extension that injects time-synchronized text/graphic overlays ont
 
 ### Data & storage model
 
-State lives in `chrome.storage.sync` under two keys:
+State lives in `chrome.storage.local` under two keys:
 - `nto_presets` — `{ titleId: { presetName: { layers, created, modified } } }` (named presets per Netflix title ID)
 - `nto_active` — `{ titleId: presetName }` (which preset is active per title)
 
@@ -47,7 +47,7 @@ Title resolution has a fallback chain: URL pathname (`/watch/<id>` or `/title/<i
 
 - **No bundler / no imports across contexts.** `formatTime` is intentionally duplicated in `overlay-utils.js`, an inline fallback in `overlay.js`, and `popup.js`; `getVisibleLayers`/`layerKey` are likewise inlined into `overlay.js`. Changing one copy means changing the others.
 - **Overlay must stay non-interactive** except in drag mode — `pointer-events` toggles on the host, and the overlay must never block clicks to the Netflix player otherwise.
-- **`chrome.storage.sync` is quota-limited** (~100KB total). The popup warns near the limit; be wary of storing large image data URLs in `layer.src`.
+- **`chrome.storage.local` is quota-limited** (~5 MB total). Presets were moved off `chrome.storage.sync` (8 KB-per-key cap) to fit large per-episode presets; the trade-off is no cross-device sync. The popup warns near the limit; be wary of storing large image data URLs in `layer.src`.
 - **Test coverage is concentrated on pure utils and message routing.** The DOM-heavy `overlay.js` and `popup.js` are largely untested. Draft tests live in `test/` (singular) but are **not run** — Jest only matches `tests/` (plural), and the drafts are blocked on a module refactor (see `test/README.md`). Add runnable tests under `tests/`.
 
 ## Workflow tooling

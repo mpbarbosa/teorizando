@@ -14,7 +14,7 @@ The extension is functional and installed in developer mode. Core features deliv
 - ✅ Layers configurable via popup (text, position, font size, colour)
 - ✅ Time-based layer display (`startTime` / `endTime` keyed to `video.currentTime`)
 - ✅ Chronometer layer (`MM:SS` live counter from video position)
-- ✅ Preset storage per Netflix title ID (`chrome.storage.sync`)
+- ✅ Preset storage per Netflix title ID (`chrome.storage.local`)
 - ✅ Default preset seeded on first install (`default-presets.json`)
 - ✅ Fallback: episode watch ID → parent show title ID
 - ✅ SPA navigation detection (Netflix client-side routing)
@@ -32,7 +32,7 @@ The extension is functional and installed in developer mode. Core features deliv
 | 1.1 | **ESLint CI** | Run `npm run lint` in a GitHub Actions workflow on every push |
 | 1.2 | **Unit tests** | Test `formatTime`, `getVisibleLayers`, `getTitleIdFromUrl`, `layerKey` with Jest + jest-chrome |
 | 1.3 | **Timer cleanup** | Disconnect `MutationObserver` and clear `setInterval` on page unload / SPA exit |
-| 1.4 | **Storage quota guard** | Warn user in popup if `chrome.storage.sync` preset size approaches 8 KB item limit |
+| 1.4 | **Storage quota guard** | Warn user in popup when the `chrome.storage.local` preset payload approaches its quota (~5 MB) |
 | 1.5 | **Error boundaries** | Graceful degradation when `video` element is not found or `chrome.storage` is unavailable |
 
 ---
@@ -61,7 +61,7 @@ The extension is functional and installed in developer mode. Core features deliv
 | 3.1 | **Multiple named presets per title** | Allow saving several named preset configurations per title ID (e.g. "Annotations", "Quotes") |
 | 3.2 | **Preset import/export** | Export all presets to JSON; import from JSON file |
 | 3.3 | **Preset library** | Popup screen to browse, rename, delete, and activate saved presets |
-| 3.4 | **Cross-device sync** | Leverage `chrome.storage.sync` fully; document quota limits |
+| 3.4 | ~~**Cross-device sync**~~ | Superseded: storage moved to `chrome.storage.local` for capacity (large per-episode presets exceed sync's 8 KB-per-key cap). Cross-device sync dropped as the trade-off. |
 | 3.5 | **Default preset editor** | Edit `default-presets.json` entries directly from the popup without reloading the extension |
 
 ---
