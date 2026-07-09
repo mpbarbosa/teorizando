@@ -160,13 +160,29 @@ describe('service-worker', () => {
       });
     });
 
-    it('does not seed on update', async () => {
+    it('does not seed on update when storage already has presets', async () => {
       const listener = loadAndCapture('runtime.onInstalled.addListener');
+      global.chrome.storage.sync.get.mockImplementation((key, cb) =>
+        cb({ nto_presets: { '80100172': { Default: { layers: [] } } } }),
+      );
 
       listener({ reason: 'update' });
       await new Promise((r) => setTimeout(r, 0));
 
       expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it('self-heals: seeds defaults on update when storage is empty', async () => {
+      const listener = loadAndCapture('runtime.onInstalled.addListener');
+      const defaults = { '80114790': [] };
+      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(defaults) });
+      global.chrome.storage.sync.get.mockImplementation((key, cb) => cb({})); // empty
+
+      listener({ reason: 'update' });
+      await new Promise((r) => setTimeout(r, 0));
+
+      expect(global.fetch).toHaveBeenCalled();
+      expect(global.chrome.storage.sync.set).toHaveBeenCalledWith({ nto_presets: defaults });
     });
 
     it('handles fetch errors without throwing (unhandled rejection)', async () => {

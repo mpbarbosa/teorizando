@@ -1,6 +1,12 @@
 'use strict';
 
-const { formatTime, getTitleIdFromUrl, getVisibleLayers, layerKey } = require('../src/lib/overlay-utils');
+const {
+  formatTime,
+  getTitleIdFromUrl,
+  getVisibleLayers,
+  layerKey,
+  migratePresets,
+} = require('../src/lib/overlay-utils');
 
 // ---------------------------------------------------------------------------
 // formatTime
@@ -146,5 +152,40 @@ describe('layerKey', () => {
   test('chronometer key with null currentTime defaults to 0', () => {
     const layer = { type: 'chronometer' };
     expect(layerKey(layer, null)).toBe('chrono-0');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// migratePresets
+// ---------------------------------------------------------------------------
+describe('migratePresets', () => {
+  test('wraps a legacy flat-array preset in the named-preset format', () => {
+    const layers = [{ text: 'hi', x: 1, y: 2 }];
+    const { presets, didMigrate } = migratePresets({ '80100172': layers });
+    expect(didMigrate).toBe(true);
+    expect(presets['80100172'].Default.layers).toBe(layers);
+    expect(typeof presets['80100172'].Default.created).toBe('number');
+    expect(typeof presets['80100172'].Default.modified).toBe('number');
+  });
+
+  test('leaves already-named presets untouched', () => {
+    const named = { '80100172': { Default: { layers: [], created: 1, modified: 2 } } };
+    const { presets, didMigrate } = migratePresets(named);
+    expect(didMigrate).toBe(false);
+    expect(presets['80100172']).toEqual({ Default: { layers: [], created: 1, modified: 2 } });
+  });
+
+  test('migrates only the legacy titles in a mixed store', () => {
+    const { presets, didMigrate } = migratePresets({
+      legacy: [{ text: 'a' }],
+      modern: { Custom: { layers: [], created: 1, modified: 1 } },
+    });
+    expect(didMigrate).toBe(true);
+    expect(presets.legacy.Default.layers).toEqual([{ text: 'a' }]);
+    expect(presets.modern).toEqual({ Custom: { layers: [], created: 1, modified: 1 } });
+  });
+
+  test('reports no migration for an empty store', () => {
+    expect(migratePresets({}).didMigrate).toBe(false);
   });
 });

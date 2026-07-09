@@ -4,6 +4,14 @@ const ACTIVE_KEY = 'nto_active';
 // chrome.storage.sync total quota: 102,400 bytes; warn at 80%
 const QUOTA_WARN_BYTES = 81920;
 
+// chrome.storage.sync caps a single key at 8,192 bytes, and all presets share
+// one key — reject image data URIs large enough to blow that on their own.
+const MAX_IMAGE_DATA_URI_BYTES = 6 * 1024;
+
+// Shared pure helpers from src/lib/overlay-utils.js (loaded before this script
+// in index.html), so formatTime / migratePresets have a single source of truth.
+const { formatTime, migratePresets } = window.__ntoUtils;
+
 let layers = [];
 let currentTitleId = null;
 let currentPresetName = null;
@@ -13,36 +21,12 @@ let libraryOpen = false;
 let dragModeActive = false;
 let groupVisibility = {}; // { groupName: bool } — false = hidden
 
-// --- Pure helper ---
-// NOTE: formatTime is intentionally duplicated from src/lib/overlay-utils.js.
-// popup.js runs as a browser script with no bundler — it cannot import from src/lib/.
-// Both implementations must stay in sync.
-function formatTime(seconds) {
-  const s = Math.floor(seconds);
-  return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
-}
-
 function escHtml(str) {
   return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
-}
-
-// --- Migration: old flat-array format → named presets ---
-
-function migratePresets(presets) {
-  let didMigrate = false;
-  for (const [titleId, value] of Object.entries(presets)) {
-    if (Array.isArray(value)) {
-      presets[titleId] = {
-        Default: { layers: value, created: Date.now(), modified: Date.now() },
-      };
-      didMigrate = true;
-    }
-  }
-  return { presets, didMigrate };
 }
 
 // --- Storage helpers ---
@@ -126,7 +110,8 @@ function getEffectiveLayers() {
 }
 
 function pushLayers() {
-  chrome.runtime.sendMessage({ target: 'content', type: 'UPDATE_LAYERS', layers: getEffectiveLayers() });
+  // Fire-and-forget: ignore "no receiving end" when no Netflix tab is active.
+  chrome.runtime.sendMessage({ target: 'content', type: 'UPDATE_LAYERS', layers: getEffectiveLayers() }).catch(() => {});
 }
 
 // --- Export / Import / Factory defaults ---
@@ -412,7 +397,7 @@ function renderTimeline() {
   const maxT = Math.max(...timed.map((l) => l.endTime ?? l.startTime ?? 0)) + 5;
   const scale = TIMELINE_W / maxT;
 
-  timed.forEach((layer, i) => {
+  timed.forEach((layer) => {
     const start = (layer.startTime ?? 0) * scale;
     const end   = (layer.endTime   ?? maxT) * scale;
     const w     = Math.max(3, end - start);
@@ -638,6 +623,15 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   if (!tabId) return;
 
   chrome.tabs.sendMessage(tabId, { target: 'content', type: 'GET_TITLE_ID' }, (response) => {
+    // No content script in this tab (not a Netflix page, or it failed to load).
+    // Reading lastError marks it handled so Chrome doesn't log an unchecked error.
+    if (chrome.runtime.lastError) {
+      currentTitleId = null;
+      setTitleBar(null);
+      renderPresetBar(null, {});
+      renderList();
+      return;
+    }
     currentTitleId = response?.titleId ?? null;
     setTitleBar(currentTitleId);
 
@@ -710,6 +704,14 @@ document.getElementById('form-add').addEventListener('submit', (e) => {
   } else if (type === 'image') {
     const src = document.getElementById('input-src').value.trim();
     if (!src) return;
+    if (src.startsWith('data:') && src.length > MAX_IMAGE_DATA_URI_BYTES) {
+      alert(
+        `Image data URI is ~${Math.round(src.length / 1024)} KB, over the ` +
+        `${Math.round(MAX_IMAGE_DATA_URI_BYTES / 1024)} KB that fits in chrome.storage.sync. ` +
+        'Use a hosted image URL instead.',
+      );
+      return;
+    }
     layer = {
       type: 'image', src, x, y,
       width:   Number(document.getElementById('input-img-w').value),
@@ -932,7 +934,7 @@ document.getElementById('preset-list').addEventListener('click', (e) => {
 // --- Toggle overlay visibility ---
 
 document.getElementById('btn-toggle').addEventListener('click', () => {
-  chrome.runtime.sendMessage({ target: 'content', type: 'TOGGLE_VISIBILITY' });
+  chrome.runtime.sendMessage({ target: 'content', type: 'TOGGLE_VISIBILITY' }).catch(() => {});
 });
 
 // --- Add chronometer layer ---
@@ -981,7 +983,7 @@ if (btnDrag) {
     btnDrag.title = dragModeActive
       ? 'Drag mode ON — click to disable'
       : 'Toggle drag mode — move layers on the video';
-    chrome.runtime.sendMessage({ target: 'content', type: 'SET_DRAG_MODE', enabled: dragModeActive });
+    chrome.runtime.sendMessage({ target: 'content', type: 'SET_DRAG_MODE', enabled: dragModeActive }).catch(() => {});
   });
 }
 
