@@ -39,7 +39,7 @@
     .nto-image.nto-draggable { pointer-events: auto; cursor: move; }
     @keyframes nto-fade-in  { from { opacity:0 } to { opacity:1 } }
     @keyframes nto-scale-in { from { transform:scale(0); opacity:0 } to { transform:scale(1); opacity:1 } }
-    @keyframes nto-draw-on  { from { stroke-dashoffset:2000 } to { stroke-dashoffset:0 } }
+    @keyframes nto-draw-on  { from { stroke-dashoffset: var(--nto-len, 2000) } to { stroke-dashoffset:0 } }
   `;
   shadow.appendChild(style);
 
@@ -156,9 +156,13 @@
       el.setAttribute('fill', fill);
       el.setAttribute('stroke', stroke);
       el.setAttribute('stroke-width', sw);
-      // draw-on animation needs stroke-dasharray set
+      // draw-on: hide the stroke then reveal it. The dash length scales with the
+      // shape (a fixed length finishes instantly on small shapes). Bounding-box
+      // perimeter is a safe upper bound for rect/ellipse/polygon; line/arrow use w.
       if (layer.animation === 'draw-on') {
-        el.setAttribute('stroke-dasharray', '2000');
+        const drawLen = Math.ceil(shape === 'line' || shape === 'arrow' ? w : 2 * (w + h));
+        el.setAttribute('stroke-dasharray', drawLen);
+        el.style.setProperty('--nto-len', drawLen);
         el.style.animation = 'nto-draw-on 1s linear forwards';
       } else if (layer.animation && layer.animation !== 'none') {
         svg.style.animation = `nto-${layer.animation} 0.4s ease-out both`;
