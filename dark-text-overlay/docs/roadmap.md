@@ -19,7 +19,7 @@ The extension is functional and installed in developer mode. Core features deliv
 - ✅ Fallback: episode watch ID → parent show title ID
 - ✅ SPA navigation detection (Netflix client-side routing)
 - ✅ Visibility toggle (show/hide all layers without deleting)
-- ✅ Dark S1E1 presets: Newton quote, Aristóteles quote, porta de ferro description
+- ✅ Dark S1E1 presets: 8 timed annotations (Newton & Aristóteles time quotes, porta de ferro/bunker, Michael/Mikkel identity, Kahnwald residence, Michael's suicide & the time loop, Mikkel's disappearance, young Jonas, amitriptilina) — each with a red highlight rectangle
 
 ---
 
@@ -128,7 +128,7 @@ The extension is functional and installed in developer mode. Core features deliv
 | v0.1.1 | Initial implementation: static layers, storage, SPA nav detection |
 | v0.1.1 | Time-based `startTime`/`endTime` layer support |
 | v0.1.2 | Chronometer layer (`MM:SS`) |
-| v0.1.3 | Dark S1E1 presets (Newton, Aristóteles, porta de ferro) |
+| v0.1.3 | Dark S1E1 presets — 8 timed annotations (time quotes, bunker door, character/location labels, plot notes) with highlight rectangles |
 | v0.1.4 | ESLint, package.json, `.workflow-config.yaml` for ai_workflow.js integration |
 | v0.2.0 | Multi-preset per title, import/export JSON, preset library, cross-device sync, factory-default restore |
 | v0.3.0 | Shape layers (SVG), image layers, rich text, layer groups, timeline view, drag-to-reposition on video, shape animations |
