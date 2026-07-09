@@ -170,6 +170,29 @@
     {
       "type": "shape",
       "shape": "rect",
+      "x": 500,
+      "y": 600,
+      "width": 320,
+      "height": 44,
+      "fill": "#cc0000",
+      "stroke": "#ff4444",
+      "strokeWidth": 2,
+      "opacity": 0.2,
+      "startTime": 57,
+      "endTime": 59
+    },
+    {
+      "text": "Ines Kahnwald",
+      "x": 500,
+      "y": 600,
+      "fontSize": 30,
+      "color": "#ffffff",
+      "startTime": 57,
+      "endTime": 59
+    },
+    {
+      "type": "shape",
+      "shape": "rect",
       "x": 300,
       "y": 400,
       "width": 340,
