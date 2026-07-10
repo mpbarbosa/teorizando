@@ -670,6 +670,121 @@
           "color": "#ffffff",
           "startTime": 295,
           "endTime": 297
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 760,
+          "height": 110,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 311,
+          "endTime": 313
+        },
+        {
+          "text": "Geladeira aparentemente esvaziada e alimento estragado,\nconfirmando a situação de abandono das coisas e o estado\nemocional dos membros da família Kahnwald.",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 311,
+          "endTime": 313
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 700,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 317,
+          "endTime": 319
+        },
+        {
+          "text": "Em Dark, nudez e sexo não são gratuitos:\nintimidade moderada que aprofunda relações\ncomplexas e constrói o mistério. Tema central:\nromances proibidos e laços familiares interligados.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 317,
+          "endTime": 319
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 840,
+          "height": 76,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 410,
+          "endTime": 412
+        },
+        {
+          "text": "Na foto, a parte da sogra de Hannah Kahnwald (?) foi arrancada,\nindicando um problema na relação das duas mulheres",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 410,
+          "endTime": 412
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 840,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 458,
+          "endTime": 460
+        },
+        {
+          "text": "O cartaz de desaparecimento de Erik Obendorf introduz o\ntema dos jovens desaparecidos — fio condutor dos próximos\npassos de Jonas Kahnwald. A cena reúne elementos-chave da\nsérie: usina nuclear, cruzamento de Winden e sumiço de jovens.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 458,
+          "endTime": 460
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 340,
+          "width": 880,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 475,
+          "endTime": 477
+        },
+        {
+          "text": "Placa na floresta aponta dois rumos: Winden (2,5 km) e as grutas\nWindener Höhlen (1,0 km). A bifurcação evoca escolha e destinos\ndivergentes — livre-arbítrio × destino, tema central de Dark.\nAs grutas, portal da viagem no tempo, ficam mais perto: atraem.",
+          "x": 40,
+          "y": 340,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 475,
+          "endTime": 477
         }
       ]
     },
@@ -1343,6 +1458,121 @@
           "color": "#ffffff",
           "startTime": 295,
           "endTime": 297
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 760,
+          "height": 110,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 311,
+          "endTime": 313
+        },
+        {
+          "text": "Geladeira aparentemente esvaziada e alimento estragado,\nconfirmando a situação de abandono das coisas e o estado\nemocional dos membros da família Kahnwald.",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 311,
+          "endTime": 313
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 700,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 317,
+          "endTime": 319
+        },
+        {
+          "text": "Em Dark, nudez e sexo não são gratuitos:\nintimidade moderada que aprofunda relações\ncomplexas e constrói o mistério. Tema central:\nromances proibidos e laços familiares interligados.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 317,
+          "endTime": 319
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 840,
+          "height": 76,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 410,
+          "endTime": 412
+        },
+        {
+          "text": "Na foto, a parte da sogra de Hannah Kahnwald (?) foi arrancada,\nindicando um problema na relação das duas mulheres",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 410,
+          "endTime": 412
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 840,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 458,
+          "endTime": 460
+        },
+        {
+          "text": "O cartaz de desaparecimento de Erik Obendorf introduz o\ntema dos jovens desaparecidos — fio condutor dos próximos\npassos de Jonas Kahnwald. A cena reúne elementos-chave da\nsérie: usina nuclear, cruzamento de Winden e sumiço de jovens.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 458,
+          "endTime": 460
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 340,
+          "width": 880,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 475,
+          "endTime": 477
+        },
+        {
+          "text": "Placa na floresta aponta dois rumos: Winden (2,5 km) e as grutas\nWindener Höhlen (1,0 km). A bifurcação evoca escolha e destinos\ndivergentes — livre-arbítrio × destino, tema central de Dark.\nAs grutas, portal da viagem no tempo, ficam mais perto: atraem.",
+          "x": 40,
+          "y": 340,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 475,
+          "endTime": 477
         }
       ]
     }
