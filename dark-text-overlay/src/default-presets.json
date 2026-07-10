@@ -716,6 +716,29 @@
           "color": "#ffffff",
           "startTime": 317,
           "endTime": 319
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 840,
+          "height": 76,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 410,
+          "endTime": 412
+        },
+        {
+          "text": "Na foto, a parte da sogra de Hannah Kahnwald (?) foi arrancada,\nindicando um problema na relação das duas mulheres",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 410,
+          "endTime": 412
         }
       ]
     },
@@ -1435,6 +1458,29 @@
           "color": "#ffffff",
           "startTime": 317,
           "endTime": 319
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 840,
+          "height": 76,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 410,
+          "endTime": 412
+        },
+        {
+          "text": "Na foto, a parte da sogra de Hannah Kahnwald (?) foi arrancada,\nindicando um problema na relação das duas mulheres",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 410,
+          "endTime": 412
         }
       ]
     }
