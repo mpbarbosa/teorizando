@@ -693,6 +693,29 @@
           "color": "#ffffff",
           "startTime": 311,
           "endTime": 313
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 700,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 317,
+          "endTime": 319
+        },
+        {
+          "text": "Em Dark, nudez e sexo não são gratuitos:\nintimidade moderada que aprofunda relações\ncomplexas e constrói o mistério. Tema central:\nromances proibidos e laços familiares interligados.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 317,
+          "endTime": 319
         }
       ]
     },
@@ -1389,6 +1412,29 @@
           "color": "#ffffff",
           "startTime": 311,
           "endTime": 313
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 700,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 317,
+          "endTime": 319
+        },
+        {
+          "text": "Em Dark, nudez e sexo não são gratuitos:\nintimidade moderada que aprofunda relações\ncomplexas e constrói o mistério. Tema central:\nromances proibidos e laços familiares interligados.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 317,
+          "endTime": 319
         }
       ]
     }
