@@ -670,6 +670,29 @@
           "color": "#ffffff",
           "startTime": 295,
           "endTime": 297
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 760,
+          "height": 110,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 311,
+          "endTime": 313
+        },
+        {
+          "text": "Geladeira aparentemente esvaziada e alimento estragado,\nconfirmando a situação de abandono das coisas e o estado\nemocional dos membros da família Kahnwald.",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 311,
+          "endTime": 313
         }
       ]
     },
@@ -1343,6 +1366,29 @@
           "color": "#ffffff",
           "startTime": 295,
           "endTime": 297
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 400,
+          "width": 760,
+          "height": 110,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 311,
+          "endTime": 313
+        },
+        {
+          "text": "Geladeira aparentemente esvaziada e alimento estragado,\nconfirmando a situação de abandono das coisas e o estado\nemocional dos membros da família Kahnwald.",
+          "x": 40,
+          "y": 400,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 311,
+          "endTime": 313
         }
       ]
     }
