@@ -647,6 +647,29 @@
           "color": "#ffffff",
           "startTime": 286,
           "endTime": 288
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 500,
+          "width": 960,
+          "height": 40,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 295,
+          "endTime": 297
+        },
+        {
+          "text": "Jonas desconfia que sua mãe está com alguém no quarto do andar de cima?",
+          "x": 40,
+          "y": 500,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 295,
+          "endTime": 297
         }
       ]
     },
@@ -1297,6 +1320,29 @@
           "color": "#ffffff",
           "startTime": 286,
           "endTime": 288
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 500,
+          "width": 960,
+          "height": 40,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 295,
+          "endTime": 297
+        },
+        {
+          "text": "Jonas desconfia que sua mãe está com alguém no quarto do andar de cima?",
+          "x": 40,
+          "y": 500,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 295,
+          "endTime": 297
         }
       ]
     }
