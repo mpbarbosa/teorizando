@@ -550,7 +550,7 @@
           "endTime": 17
         },
         {
-          "text": "• Tempo absoluto: flui por si, sem relação com nada externo\n• Tempo relativo: medida sensível da duração pelo movimento\n• Ex.: hora, dia, mês, ano\n(Isaac Newton)",
+          "text": "• Tempo absoluto: flui por si, alheio a tudo — a \"duração\"\n• Tempo relativo: medida sensível da duração pelo movimento\n• Ex.: hora, dia, mês, ano\n— Isaac Newton",
           "x": 20,
           "y": 120,
           "fontSize": 20,
@@ -582,7 +582,7 @@
           "endTime": 32
         },
         {
-          "text": "• Porta de ferro do bunker, na caverna de Winden\n• Transição para a viagem no tempo\n• Liga caverna, usina nuclear e bunker\n• Soldada por Aleksander Tiedemann\n• Bunker em 1953 / 1986 / 2019 (\"Quarto Azul\")",
+          "text": "• Porta de ferro do bunker, na caverna de Winden\n• Passagem-chave para a viagem no tempo\n• Conecta caverna, usina nuclear e bunker\n• Soldada por Aleksander Tiedemann\n• Bunker ativo em 1953, 1986 e 2019 (\"Quarto Azul\")",
           "x": 20,
           "y": 70,
           "fontSize": 20,
@@ -979,7 +979,7 @@
           "endTime": 104
         },
         {
-          "text": "• Michael (Mikkel) se suicida para manter o loop\n• Garante Mikkel levado a 1986 → Jonas nasce\n• \"Sempre se matou\": destino predeterminado\n• Gatilho da jornada de Jonas\n• Jonas acaba selando o próprio paradoxo",
+          "text": "• Michael (Mikkel) se suicida para sustentar o loop\n• Sua morte garante que Mikkel vá para 1986 → Jonas nasce\n• \"Sempre se matou\": predeterminação\n• É o gatilho da jornada de Jonas\n• Ao voltar, Jonas acaba selando o próprio paradoxo",
           "x": 20,
           "y": 70,
           "fontSize": 20,
@@ -1002,7 +1002,7 @@
           "endTime": 162
         },
         {
-          "text": "• 04/11/2019: desaparecimento de Mikkel Nielsen\n• Vira Michael Kahnwald após ir para 1986\n• Ponto de partida da série",
+          "text": "• 04/11/2019: desaparecimento de Mikkel Nielsen\n• Levado a 1986, torna-se Michael Kahnwald\n• Estopim de toda a trama",
           "x": 400,
           "y": 200,
           "fontSize": 30,
@@ -1025,7 +1025,7 @@
           "endTime": 167
         },
         {
-          "text": "• Jonas antes de virar o \"Estranho\"\n• Adolescente comum, luto pelo pai (Michael/Mikkel)\n• Fase de inocência antes das viagens no tempo",
+          "text": "• Jonas antes de se tornar o \"Estranho\"\n• Adolescente comum, em luto pelo pai (Michael/Mikkel)\n• Sua fase de inocência, antes das viagens no tempo",
           "x": 300,
           "y": 450,
           "fontSize": 30,
