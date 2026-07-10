@@ -762,6 +762,29 @@
           "color": "#ffffff",
           "startTime": 458,
           "endTime": 460
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 340,
+          "width": 880,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 475,
+          "endTime": 477
+        },
+        {
+          "text": "Placa na floresta aponta dois rumos: Winden (2,5 km) e as grutas\nWindener Höhlen (1,0 km). A bifurcação evoca escolha e destinos\ndivergentes — livre-arbítrio × destino, tema central de Dark.\nAs grutas, portal da viagem no tempo, ficam mais perto: atraem.",
+          "x": 40,
+          "y": 340,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 475,
+          "endTime": 477
         }
       ]
     },
@@ -1527,6 +1550,29 @@
           "color": "#ffffff",
           "startTime": 458,
           "endTime": 460
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 340,
+          "width": 880,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 475,
+          "endTime": 477
+        },
+        {
+          "text": "Placa na floresta aponta dois rumos: Winden (2,5 km) e as grutas\nWindener Höhlen (1,0 km). A bifurcação evoca escolha e destinos\ndivergentes — livre-arbítrio × destino, tema central de Dark.\nAs grutas, portal da viagem no tempo, ficam mais perto: atraem.",
+          "x": 40,
+          "y": 340,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 475,
+          "endTime": 477
         }
       ]
     }
