@@ -785,6 +785,29 @@
           "color": "#ffffff",
           "startTime": 475,
           "endTime": 477
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 340,
+          "width": 900,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 479,
+          "endTime": 481
+        },
+        {
+          "text": "Entrada das grutas de Winden — portal da viagem no tempo e\ncoração do mistério. A boca escura evoca o desconhecido, o\nsubmundo e o ciclo eterno. Poltrona e sucata abandonadas denunciam\no esconderijo dos jovens: o mundano tocando o sobrenatural.",
+          "x": 40,
+          "y": 340,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 479,
+          "endTime": 481
         }
       ]
     },
@@ -1573,6 +1596,29 @@
           "color": "#ffffff",
           "startTime": 475,
           "endTime": 477
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 340,
+          "width": 900,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 479,
+          "endTime": 481
+        },
+        {
+          "text": "Entrada das grutas de Winden — portal da viagem no tempo e\ncoração do mistério. A boca escura evoca o desconhecido, o\nsubmundo e o ciclo eterno. Poltrona e sucata abandonadas denunciam\no esconderijo dos jovens: o mundano tocando o sobrenatural.",
+          "x": 40,
+          "y": 340,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 479,
+          "endTime": 481
         }
       ]
     }
