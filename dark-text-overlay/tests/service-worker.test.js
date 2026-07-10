@@ -131,37 +131,49 @@ describe('service-worker', () => {
       delete global.fetch;
     });
 
-    it('seeds default presets on fresh install', async () => {
+    // Named-format bundle used across the additive-merge tests.
+    const namedDefaults = {
+      '80114790': {
+        Default: { layers: [], created: 0, modified: 0 },
+        Bullets: { layers: [], created: 0, modified: 0 },
+      },
+    };
+
+    it('seeds all bundled presets on fresh install (empty storage)', async () => {
       const listener = loadAndCapture('runtime.onInstalled.addListener');
-      const defaults = { '80114790': [] };
-      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(defaults) });
+      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(namedDefaults) });
       global.chrome.storage.local.get.mockImplementation((key, cb) => cb({}));
 
       listener({ reason: 'install' });
       await new Promise((r) => setTimeout(r, 0)); // flush microtasks
 
-      expect(global.chrome.storage.local.set).toHaveBeenCalledWith({ nto_presets: defaults });
+      expect(global.chrome.storage.local.set).toHaveBeenCalledWith({ nto_presets: namedDefaults });
     });
 
-    it('preserves existing user presets on install (user values win)', async () => {
+    it('adds a new bundled preset to an existing title without overwriting user edits', async () => {
       const listener = loadAndCapture('runtime.onInstalled.addListener');
-      const defaults = { a: [1], b: [2] };
-      const userPresets = { b: [99], c: [3] };
-      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(defaults) });
+      const existing = { '80114790': { Default: { layers: ['user'], created: 1, modified: 2 } } };
+      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(namedDefaults) });
       global.chrome.storage.local.get.mockImplementation((key, cb) =>
-        cb({ nto_presets: userPresets }),
+        cb({ nto_presets: existing }),
       );
 
-      listener({ reason: 'install' });
+      listener({ reason: 'update' });
       await new Promise((r) => setTimeout(r, 0));
 
       expect(global.chrome.storage.local.set).toHaveBeenCalledWith({
-        nto_presets: { a: [1], b: [99], c: [3] },
+        nto_presets: {
+          '80114790': {
+            Default: { layers: ['user'], created: 1, modified: 2 }, // user's version preserved
+            Bullets: { layers: [], created: 0, modified: 0 },        // added from the bundle
+          },
+        },
       });
     });
 
-    it('does not seed on update when storage already has presets', async () => {
+    it('seeds on update too, so new bundled presets reach existing installs', async () => {
       const listener = loadAndCapture('runtime.onInstalled.addListener');
+      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(namedDefaults) });
       global.chrome.storage.local.get.mockImplementation((key, cb) =>
         cb({ nto_presets: { '80100172': { Default: { layers: [] } } } }),
       );
@@ -169,20 +181,22 @@ describe('service-worker', () => {
       listener({ reason: 'update' });
       await new Promise((r) => setTimeout(r, 0));
 
-      expect(global.fetch).not.toHaveBeenCalled();
+      expect(global.fetch).toHaveBeenCalled();
     });
 
-    it('self-heals: seeds defaults on update when storage is empty', async () => {
+    it('upgrades legacy flat-array presets to named format', async () => {
       const listener = loadAndCapture('runtime.onInstalled.addListener');
-      const defaults = { '80114790': [] };
-      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue(defaults) });
-      global.chrome.storage.local.get.mockImplementation((key, cb) => cb({})); // empty
+      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue({}) });
+      global.chrome.storage.local.get.mockImplementation((key, cb) =>
+        cb({ nto_presets: { '80100172': [{ text: 'x' }] } }),
+      );
 
       listener({ reason: 'update' });
       await new Promise((r) => setTimeout(r, 0));
 
-      expect(global.fetch).toHaveBeenCalled();
-      expect(global.chrome.storage.local.set).toHaveBeenCalledWith({ nto_presets: defaults });
+      const saved = global.chrome.storage.local.set.mock.calls[0][0].nto_presets;
+      expect(Array.isArray(saved['80100172'])).toBe(false);
+      expect(saved['80100172'].Default.layers).toEqual([{ text: 'x' }]);
     });
 
     it('handles fetch errors without throwing (unhandled rejection)', async () => {
