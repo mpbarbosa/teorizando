@@ -739,6 +739,29 @@
           "color": "#ffffff",
           "startTime": 410,
           "endTime": 412
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 840,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 458,
+          "endTime": 460
+        },
+        {
+          "text": "O cartaz de desaparecimento de Erik Obendorf introduz o\ntema dos jovens desaparecidos — fio condutor dos próximos\npassos de Jonas Kahnwald. A cena reúne elementos-chave da\nsérie: usina nuclear, cruzamento de Winden e sumiço de jovens.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 458,
+          "endTime": 460
         }
       ]
     },
@@ -1481,6 +1504,29 @@
           "color": "#ffffff",
           "startTime": 410,
           "endTime": 412
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 350,
+          "width": 840,
+          "height": 150,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 458,
+          "endTime": 460
+        },
+        {
+          "text": "O cartaz de desaparecimento de Erik Obendorf introduz o\ntema dos jovens desaparecidos — fio condutor dos próximos\npassos de Jonas Kahnwald. A cena reúne elementos-chave da\nsérie: usina nuclear, cruzamento de Winden e sumiço de jovens.",
+          "x": 40,
+          "y": 350,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 458,
+          "endTime": 460
         }
       ]
     }
