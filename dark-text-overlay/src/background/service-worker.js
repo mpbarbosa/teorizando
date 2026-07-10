@@ -31,36 +31,32 @@ chrome.commands.onCommand.addListener((command) => {
   });
 });
 
-// Merges the bundled default presets into storage (existing titles win, so a
-// user's own presets are never overwritten).
+// Merges the bundled default presets into storage. Additive and non-destructive:
+// legacy flat-array formats are upgraded to named presets, any bundled preset
+// the user is missing is added (so new default presets reach existing installs),
+// and every preset the user already has is left untouched — their edits win, at
+// the individual-preset level. Trade-off: a default preset the user deleted will
+// reappear on the next seed, since "deleted" and "never had" look identical.
 function seedDefaultPresets() {
   fetch(chrome.runtime.getURL('src/default-presets.json'))
     .then((r) => r.json())
     .then((defaults) => {
       chrome.storage.local.get('nto_presets', (result) => {
-        const existing = result['nto_presets'] ?? {};
-        const merged = { ...defaults, ...existing };
+        const { presets: def } = ntoUtils.migratePresets(defaults);
+        const { presets: existing } = ntoUtils.migratePresets(result['nto_presets'] ?? {});
+        const merged = { ...existing };
+        for (const titleId of Object.keys(def)) {
+          // Per-preset merge: bundled presets first, existing ones overwrite them.
+          merged[titleId] = { ...def[titleId], ...(existing[titleId] ?? {}) };
+        }
         chrome.storage.local.set({ nto_presets: merged });
       });
     })
     .catch((err) => console.warn('[NTO] Failed to seed default presets:', err));
 }
 
-// Seed default presets and keep the storage format current.
+// Run the additive merge on install and on update, so newly-bundled presets
+// flow to existing installs (and legacy formats get upgraded) without a reseed.
 chrome.runtime.onInstalled.addListener(({ reason }) => {
-  if (reason === 'install') {
-    seedDefaultPresets();
-    return;
-  }
-
-  if (reason !== 'update') return;
-
-  chrome.storage.local.get('nto_presets', (result) => {
-    const { presets, didMigrate } = ntoUtils.migratePresets(result['nto_presets'] ?? {});
-    if (didMigrate) chrome.storage.local.set({ nto_presets: presets });
-    // Self-heal: if storage is empty (e.g. a broken earlier install never
-    // seeded — and reloads only ever fire 'update'), seed defaults now so the
-    // overlay isn't left with nothing to show.
-    if (Object.keys(presets).length === 0) seedDefaultPresets();
-  });
+  if (reason === 'install' || reason === 'update') seedDefaultPresets();
 });
