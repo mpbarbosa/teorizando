@@ -624,6 +624,29 @@
           "color": "#ffffff",
           "startTime": 286,
           "endTime": 288
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 600,
+          "width": 1500,
+          "height": 40,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 286,
+          "endTime": 288
+        },
+        {
+          "text": "A casa agora apresenta um aspecto de abandono, refletindo o momento emocional pelo qual a família Kahnwald passa",
+          "x": 40,
+          "y": 600,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 286,
+          "endTime": 288
         }
       ]
     },
@@ -1247,6 +1270,29 @@
           "text": "Mikkel Nielsen e Michael Kahnwald são a mesma pessoa em idades diferentes.",
           "x": 40,
           "y": 540,
+          "fontSize": 26,
+          "color": "#ffffff",
+          "startTime": 286,
+          "endTime": 288
+        },
+        {
+          "type": "shape",
+          "shape": "rect",
+          "x": 40,
+          "y": 600,
+          "width": 1500,
+          "height": 40,
+          "fill": "#cc0000",
+          "stroke": "#ff4444",
+          "strokeWidth": 2,
+          "opacity": 0.2,
+          "startTime": 286,
+          "endTime": 288
+        },
+        {
+          "text": "A casa agora apresenta um aspecto de abandono, refletindo o momento emocional pelo qual a família Kahnwald passa",
+          "x": 40,
+          "y": 600,
           "fontSize": 26,
           "color": "#ffffff",
           "startTime": 286,
